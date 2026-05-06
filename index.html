@@ -7,59 +7,108 @@
     <link rel="shortcut icon" href="TemplateData/favicon.ico">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
     <style>
       *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
       :root {
-        --bg-deep:    #0a0c10;
-        --bg-panel:   #111418;
-        --bg-card:    #181c22;
-        --border:     #252b35;
-        --border-act: #3a8fd4;
-        --accent:     #3a8fd4;
-        --accent-glow:rgba(58,143,212,0.22);
-        --text-pri:   #e8ecf0;
-        --text-sec:   #7a8694;
-        --text-mut:   #4a5260;
-        --btn-bg:     #1c2230;
-        --btn-hover:  #243044;
-        --btn-act-bg: #1a3a5c;
-        --success:    #3ad48a;
-        --warning:    #d4c33a;
-        --danger:     #d45a3a;
-        --panel-w:    210px;
-        --ctrl-w:     196px;
-        --footer-h:   38px;
+        --panel-w:   300px;
+        --ctrl-w:    280px;
+        --footer-h:  36px;
+        --topbar-h:  48px;
+
+        /* 흰색 테마 */
+        --bg:        #f5f6f8;
+        --surface:   #ffffff;
+        --border:    #e2e5eb;
+        --border2:   #d0d4dc;
+        --text-pri:  #1a1d23;
+        --text-sec:  #5a6170;
+        --text-mut:  #9ba3b0;
+        --accent:    #4f6ef7;
+        --accent-lt: #eef1fe;
+        --accent-dk: #3a56d4;
+        --success:   #22c55e;
+        --success-lt:#f0fdf4;
+        --danger:    #ef4444;
+        --danger-lt: #fef2f2;
+        --warning:   #f59e0b;
+        --shadow-sm: 0 1px 3px rgba(0,0,0,0.08);
+        --shadow-md: 0 2px 8px rgba(0,0,0,0.10);
+        --radius:    8px;
+        --radius-sm: 5px;
       }
 
       html, body {
         width: 100vw; height: 100vh;
         overflow: hidden;
-        background: var(--bg-deep);
-        font-family: 'Noto Sans KR', sans-serif;
-        font-size: 13px;
+        background: var(--bg);
+        font-family: 'Noto Sans KR', 'Inter', sans-serif;
+        font-size: 14px;
         color: var(--text-pri);
       }
 
-      ::-webkit-scrollbar { width: 4px; }
+      ::-webkit-scrollbar { width: 5px; }
       ::-webkit-scrollbar-track { background: transparent; }
-      ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 2px; }
+      ::-webkit-scrollbar-thumb { background: var(--border2); border-radius: 3px; }
+      ::-webkit-scrollbar-thumb:hover { background: var(--text-mut); }
 
+      /* ══════════════════════════
+         상단 TopBar
+      ══════════════════════════ */
+      #topbar {
+        position: fixed; top: 0; left: 0; right: 0;
+        height: var(--topbar-h);
+        background: var(--surface);
+        border-bottom: 1px solid var(--border);
+        display: flex; align-items: center; padding: 0 16px; gap: 12px;
+        z-index: 100;
+        box-shadow: var(--shadow-sm);
+      }
+      #topbar .logo {
+        font-size: 17px; font-weight: 700; color: var(--accent);
+        letter-spacing: -0.01em;
+      }
+      #topbar .divider {
+        width: 1px; height: 20px; background: var(--border); margin: 0 4px;
+      }
+      #topbar .title {
+        font-size: 14px; color: var(--text-sec); font-weight: 400;
+      }
+      #topbar .spacer { flex: 1; }
+      #topbar .top-btn {
+        padding: 8px 18px; border-radius: var(--radius-sm);
+        font-size: 13px; font-weight: 600; cursor: pointer;
+        border: 1px solid var(--border); background: var(--surface);
+        color: var(--text-sec); transition: all 0.15s;
+        font-family: 'Noto Sans KR', sans-serif;
+      }
+      #topbar .top-btn:hover { border-color: var(--accent); color: var(--accent); }
+      #topbar .top-btn.primary {
+        background: var(--accent); color: #fff; border-color: var(--accent);
+      }
+      #topbar .top-btn.primary:hover { background: var(--accent-dk); }
+
+      /* ══════════════════════════
+         메인 레이아웃
+      ══════════════════════════ */
       #app-layout {
         display: flex;
         width: 100vw;
         height: 100vh;
+        padding-top: var(--topbar-h);
         overflow: hidden;
       }
 
-      /* ══ ① 제품 리스트 ══ */
+      /* ══════════════════════════
+         ① 왼쪽 제품 리스트 패널
+      ══════════════════════════ */
       #panel-products {
         width: var(--panel-w);
         min-width: var(--panel-w);
         max-width: var(--panel-w);
-        height: 100vh;
-        background: var(--bg-panel);
+        height: 100%;
+        background: var(--surface);
         border-right: 1px solid var(--border);
         display: flex;
         flex-direction: column;
@@ -68,163 +117,149 @@
       }
 
       .panel-header {
-        padding: 14px 12px 10px;
+        padding: 16px 16px 12px;
         border-bottom: 1px solid var(--border);
-        display: flex; align-items: center; gap: 7px;
-        flex-shrink: 0;
-      }
-      .panel-header .dot {
-        width: 6px; height: 6px; border-radius: 50%;
-        background: var(--accent); box-shadow: 0 0 6px var(--accent);
+        display: flex; align-items: center; gap: 8px;
         flex-shrink: 0;
       }
       .panel-header h2 {
-        font-size: 11px; font-weight: 700;
-        letter-spacing: 0.09em; text-transform: uppercase; color: var(--text-pri);
+        font-size: 15px; font-weight: 700;
+        color: var(--text-pri); letter-spacing: -0.01em;
       }
       .panel-header .badge {
         margin-left: auto;
-        font-family: 'JetBrains Mono', monospace; font-size: 10px;
-        color: var(--text-mut); background: var(--bg-card);
-        padding: 1px 6px; border-radius: 10px; border: 1px solid var(--border);
+        font-size: 12px; font-weight: 600;
+        color: var(--accent); background: var(--accent-lt);
+        padding: 3px 10px; border-radius: 20px;
       }
 
-      .product-search { padding: 8px 10px; border-bottom: 1px solid var(--border); flex-shrink: 0; }
+      .product-search {
+        padding: 12px 14px;
+        border-bottom: 1px solid var(--border);
+        flex-shrink: 0;
+      }
       .product-search input {
-        width: 100%; background: var(--bg-card); border: 1px solid var(--border);
-        border-radius: 4px; padding: 5px 9px; color: var(--text-pri);
-        font-size: 11px; font-family: 'Noto Sans KR', sans-serif;
-        outline: none; transition: border-color 0.2s;
+        width: 100%;
+        background: var(--bg);
+        border: 1px solid var(--border);
+        border-radius: var(--radius-sm);
+        padding: 9px 12px 9px 34px;
+        color: var(--text-pri);
+        font-size: 13px;
+        font-family: 'Noto Sans KR', sans-serif;
+        outline: none;
+        transition: border-color 0.2s, box-shadow 0.2s;
+        background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='14' viewBox='0 0 24 24' fill='none' stroke='%239ba3b0' stroke-width='2'%3E%3Ccircle cx='11' cy='11' r='8'/%3E%3Cpath d='m21 21-4.35-4.35'/%3E%3C/svg%3E");
+        background-repeat: no-repeat;
+        background-position: 11px center;
       }
       .product-search input::placeholder { color: var(--text-mut); }
-      .product-search input:focus { border-color: var(--accent); }
+      .product-search input:focus {
+        border-color: var(--accent);
+        box-shadow: 0 0 0 3px rgba(79,110,247,0.12);
+        background-color: var(--surface);
+      }
+
+      /* 카테고리 필터 탭 */
+      .cat-filter {
+        padding: 10px 14px;
+        display: flex; gap: 5px; flex-wrap: wrap;
+        border-bottom: 1px solid var(--border);
+        flex-shrink: 0;
+      }
+      .cat-tab {
+        padding: 4px 12px; border-radius: 20px; font-size: 12px; font-weight: 500;
+        border: 1px solid var(--border); background: var(--surface);
+        color: var(--text-sec); cursor: pointer; transition: all 0.15s;
+        font-family: 'Noto Sans KR', sans-serif;
+      }
+      .cat-tab:hover { border-color: var(--accent); color: var(--accent); }
+      .cat-tab.active { background: var(--accent); border-color: var(--accent); color: #fff; }
 
       #product-list {
         flex: 1; overflow-y: auto;
-        padding: 7px 8px; display: flex; flex-direction: column; gap: 3px;
+        padding: 10px 12px;
+        display: flex; flex-direction: column; gap: 5px;
       }
 
-      /* 로딩 대기 메시지 */
       .list-empty {
-        text-align: center;
-        padding: 30px 10px;
-        color: var(--text-mut);
-        font-size: 11px;
-        line-height: 1.8;
+        text-align: center; padding: 40px 16px;
+        color: var(--text-mut); font-size: 13px; line-height: 2;
       }
-      .list-empty .empty-icon { font-size: 22px; margin-bottom: 8px; opacity: 0.3; }
+      .list-empty .empty-icon { font-size: 28px; margin-bottom: 10px; opacity: 0.3; display: block; }
 
       .product-btn {
-        width: 100%; background: var(--btn-bg); border: 1px solid var(--border);
-        border-radius: 4px; padding: 8px 10px; color: var(--text-sec);
-        font-size: 11px; font-family: 'Noto Sans KR', sans-serif;
-        cursor: pointer; display: flex; align-items: center; gap: 7px;
-        transition: all 0.14s ease; text-align: left; position: relative; overflow: hidden;
-      }
-      .product-btn::before {
-        content: ''; position: absolute; left: 0; top: 0; bottom: 0; width: 2px;
-        background: var(--accent); transform: scaleY(0); transition: transform 0.14s;
-      }
-      .product-btn:hover { background: var(--btn-hover); border-color: var(--border-act); color: var(--text-pri); }
-      .product-btn:hover::before { transform: scaleY(1); }
-      .product-btn.active { background: var(--btn-act-bg); border-color: var(--border-act); color: var(--accent); }
-      .product-btn.active::before { transform: scaleY(1); }
-
-      .prod-icon {
-        width: 18px; height: 18px; border-radius: 3px;
-        background: var(--bg-card); border: 1px solid var(--border);
-        display: flex; align-items: center; justify-content: center;
-        flex-shrink: 0; font-size: 9px; color: var(--text-mut);
-        font-family: 'JetBrains Mono', monospace;
-      }
-      .product-btn.active .prod-icon { background: var(--accent-glow); border-color: var(--accent); color: var(--accent); }
-      .prod-name { flex: 1; font-weight: 500; }
-
-      /* category 뱃지 */
-      .prod-category {
-        font-size: 8px;
-        font-family: 'JetBrains Mono', monospace;
-        padding: 1px 4px;
-        border-radius: 2px;
-        background: var(--bg-card);
+        width: 100%;
+        background: var(--surface);
         border: 1px solid var(--border);
-        color: var(--text-mut);
-        flex-shrink: 0;
-        text-transform: uppercase;
-        letter-spacing: 0.04em;
+        border-radius: var(--radius-sm);
+        padding: 11px 13px;
+        color: var(--text-pri);
+        font-size: 14px;
+        font-family: 'Noto Sans KR', sans-serif;
+        cursor: pointer;
+        display: flex; align-items: center; gap: 10px;
+        transition: all 0.14s ease;
+        text-align: left;
+        box-shadow: var(--shadow-sm);
       }
-      .product-btn.active .prod-category { border-color: var(--accent); color: var(--accent); }
+      .product-btn:hover {
+        border-color: var(--accent);
+        background: var(--accent-lt);
+        color: var(--accent);
+        box-shadow: var(--shadow-md);
+        transform: translateX(2px);
+      }
+      .product-btn:active { transform: scale(0.98); }
 
-      .placed-dot {
-        width: 5px; height: 5px; border-radius: 50%;
-        background: var(--success); opacity: 0; transition: opacity 0.2s; flex-shrink: 0;
+      .prod-num {
+        width: 26px; height: 26px; border-radius: 5px;
+        background: var(--bg); border: 1px solid var(--border);
+        display: flex; align-items: center; justify-content: center;
+        flex-shrink: 0; font-size: 11px; font-weight: 700;
+        color: var(--text-mut);
+        font-family: 'Inter', monospace;
       }
-      .product-btn.placed .placed-dot { opacity: 1; }
+      .product-btn:hover .prod-num {
+        background: var(--accent); border-color: var(--accent); color: #fff;
+      }
+      .prod-name { flex: 1; font-weight: 500; }
+      .prod-category {
+        font-size: 11px; font-weight: 500;
+        padding: 3px 8px; border-radius: 20px;
+        background: var(--bg); border: 1px solid var(--border);
+        color: var(--text-mut); flex-shrink: 0; text-transform: uppercase;
+      }
+      .product-btn:hover .prod-category {
+        background: var(--accent-lt); border-color: var(--accent); color: var(--accent);
+      }
 
       .list-footer {
-        padding: 8px 10px; border-top: 1px solid var(--border);
-        display: flex; gap: 5px; flex-shrink: 0;
+        padding: 10px 12px;
+        border-top: 1px solid var(--border);
+        display: flex; gap: 6px; flex-shrink: 0;
       }
       .list-footer button {
-        flex: 1; padding: 5px; font-size: 10px;
-        font-family: 'Noto Sans KR', sans-serif; border-radius: 3px;
-        border: 1px solid var(--border); background: var(--bg-card);
-        color: var(--text-sec); cursor: pointer; transition: all 0.14s;
+        flex: 1; padding: 9px;
+        font-size: 13px; font-weight: 500;
+        font-family: 'Noto Sans KR', sans-serif;
+        border-radius: var(--radius-sm);
+        border: 1px solid var(--border);
+        background: var(--surface);
+        color: var(--text-sec); cursor: pointer; transition: all 0.15s;
       }
-      .list-footer button:hover { border-color: var(--accent); color: var(--accent); }
+      .list-footer button:hover { border-color: var(--accent); color: var(--accent); background: var(--accent-lt); }
 
-      /* ══ ② 편의기능 ══ */
-      #panel-controls {
-        width: var(--ctrl-w); min-width: var(--ctrl-w); max-width: var(--ctrl-w);
-        height: 100vh; background: var(--bg-panel); border-right: 1px solid var(--border);
-        display: flex; flex-direction: column; overflow-y: auto;
-        flex-shrink: 0; z-index: 20;
-      }
-
-      .ctrl-section { padding: 10px 9px 8px; border-bottom: 1px solid var(--border); flex-shrink: 0; }
-      .ctrl-section:last-child { border-bottom: none; }
-      .ctrl-title {
-        font-size: 9px; font-weight: 700; letter-spacing: 0.13em;
-        text-transform: uppercase; color: var(--text-mut); margin-bottom: 7px;
-      }
-      .ctrl-info {
-        font-size: 10px; color: var(--text-sec); background: var(--bg-card);
-        padding: 5px 9px; border-radius: 3px; border: 1px solid var(--border);
-        margin-bottom: 5px; font-family: 'JetBrains Mono', monospace;
-        display: flex; justify-content: space-between;
-      }
-      .ctrl-info span { color: var(--accent); }
-
-      .ctrl-btn {
-        width: 100%; padding: 7px 9px; margin-bottom: 3px;
-        border-radius: 4px; border: 1px solid var(--border); background: var(--btn-bg);
-        color: var(--text-sec); font-size: 11px; font-family: 'Noto Sans KR', sans-serif;
-        cursor: pointer; text-align: left; display: flex; align-items: center; gap: 7px;
-        transition: all 0.14s;
-      }
-      .ctrl-btn:last-child { margin-bottom: 0; }
-      .ctrl-icon { font-size: 12px; flex-shrink: 0; opacity: 0.65; }
-      .ctrl-btn:hover { background: var(--btn-hover); border-color: var(--border-act); color: var(--text-pri); }
-      .ctrl-btn:hover .ctrl-icon { opacity: 1; }
-      .ctrl-btn:active { transform: scale(0.98); }
-      .ctrl-btn.is-on  { background: rgba(58,212,138,0.08); border-color: var(--success); color: var(--success); }
-      .ctrl-btn.is-off { background: rgba(212,90,58,0.08);  border-color: var(--danger);  color: var(--danger); }
-      .ctrl-btn.is-primary { background: rgba(58,143,212,0.1); border-color: var(--accent); color: var(--accent); }
-      .state-badge {
-        margin-left: auto; font-size: 9px; font-family: 'JetBrains Mono', monospace;
-        padding: 1px 5px; border-radius: 3px; font-weight: 700;
-      }
-      .is-on  .state-badge { background: rgba(58,212,138,0.15); color: var(--success); }
-      .is-off .state-badge { background: rgba(212,90,58,0.15);  color: var(--danger); }
-
-      /* ══ ③ Unity 영역 ══ */
+      /* ══════════════════════════
+         ③ Unity 중앙 영역
+      ══════════════════════════ */
       #unity-wrapper {
         flex: 1 1 0%;
         min-width: 0;
-        height: 100vh;
+        height: 100%;
         position: relative;
         overflow: hidden;
-        background: #000;
+        background: #1a1a2e;
         display: flex;
         flex-direction: column;
       }
@@ -252,111 +287,178 @@
         background-size: contain;
       }
       #unity-warning { position: absolute; top: 0; left: 0; right: 0; z-index: 10; }
-
       #unity-footer {
-        height: var(--footer-h); background: #111;
-        border-top: 1px solid var(--border);
-        display: flex; align-items: center; padding: 0 10px; flex-shrink: 0;
+        height: var(--footer-h); background: #111827;
+        display: flex; align-items: center; padding: 0 12px; flex-shrink: 0;
+        border-top: 1px solid rgba(255,255,255,0.06);
       }
-      #unity-build-title {
-        color: #666; font-size: 11px; margin-left: auto;
-        font-family: 'JetBrains Mono', monospace;
-      }
+      #unity-build-title { color: #4b5563; font-size: 11px; margin-left: auto; font-family: 'Inter', monospace; }
       #unity-fullscreen-button {
-        width: 24px; height: 24px; margin-left: 8px; cursor: pointer;
+        width: 22px; height: 22px; margin-left: 8px; cursor: pointer;
         background: url('TemplateData/fullscreen-button.png') no-repeat center;
-        background-size: contain; opacity: 0.5; transition: opacity 0.15s;
+        background-size: contain; opacity: 0.4; transition: opacity 0.15s;
       }
-      #unity-fullscreen-button:hover { opacity: 1; }
+      #unity-fullscreen-button:hover { opacity: 0.9; }
       #unity-logo-title-footer {
         width: 16px; height: 16px;
         background: url('TemplateData/unity-logo-title.png') no-repeat center;
-        background-size: contain; opacity: 0.4;
+        background-size: contain; opacity: 0.3;
       }
 
+      /* ══════════════════════════
+         ② 오른쪽 편의기능 패널
+      ══════════════════════════ */
+      #panel-controls {
+        width: var(--ctrl-w);
+        min-width: var(--ctrl-w);
+        max-width: var(--ctrl-w);
+        height: 100%;
+        background: var(--surface);
+        border-left: 1px solid var(--border);
+        display: flex; flex-direction: column; overflow-y: auto;
+        flex-shrink: 0; z-index: 20;
+      }
+
+      .ctrl-section {
+        padding: 16px 14px 14px;
+        border-bottom: 1px solid var(--border);
+        flex-shrink: 0;
+      }
+      .ctrl-section:last-child { border-bottom: none; }
+
+      .ctrl-title {
+        font-size: 11px; font-weight: 700;
+        letter-spacing: 0.07em; text-transform: uppercase;
+        color: var(--text-mut); margin-bottom: 12px;
+      }
+
+      /* 정보 카드 */
+      .info-card {
+        background: var(--bg); border: 1px solid var(--border);
+        border-radius: var(--radius-sm); padding: 8px 12px;
+        margin-bottom: 6px; display: flex; justify-content: space-between;
+        align-items: center;
+      }
+      .info-card .info-label { font-size: 13px; color: var(--text-sec); }
+      .info-card .info-value { font-size: 15px; font-weight: 700; color: var(--accent); font-family: 'Inter', monospace; }
+
+      /* 편의 버튼 */
+      .ctrl-btn {
+        width: 100%; padding: 11px 14px; margin-bottom: 6px;
+        border-radius: var(--radius-sm);
+        border: 1px solid var(--border);
+        background: var(--surface);
+        color: var(--text-pri);
+        font-size: 14px; font-family: 'Noto Sans KR', sans-serif;
+        cursor: pointer; text-align: left;
+        display: flex; align-items: center; gap: 10px;
+        transition: all 0.15s;
+        box-shadow: var(--shadow-sm);
+      }
+      .ctrl-btn:last-child { margin-bottom: 0; }
+      .ctrl-icon { font-size: 16px; flex-shrink: 0; }
+      .ctrl-btn:hover { border-color: var(--accent); background: var(--accent-lt); color: var(--accent); box-shadow: var(--shadow-md); }
+      .ctrl-btn:active { transform: scale(0.98); }
+
+      /* ON/OFF 토글 버튼 */
+      .ctrl-btn.is-on {
+        background: var(--success-lt); border-color: var(--success); color: var(--success);
+      }
+      .ctrl-btn.is-off {
+        background: var(--danger-lt); border-color: var(--danger); color: var(--danger);
+      }
+      /* 강조 버튼 */
+      .ctrl-btn.is-primary {
+        background: var(--accent); border-color: var(--accent); color: #fff;
+        box-shadow: 0 2px 8px rgba(79,110,247,0.3);
+      }
+      .ctrl-btn.is-primary:hover { background: var(--accent-dk); border-color: var(--accent-dk); }
+
+      .state-badge {
+        margin-left: auto; font-size: 11px; font-weight: 700;
+        padding: 3px 9px; border-radius: 20px;
+        font-family: 'Inter', monospace;
+      }
+      .is-on  .state-badge { background: rgba(34,197,94,0.15); color: var(--success); }
+      .is-off .state-badge { background: rgba(239,68,68,0.15);  color: var(--danger); }
+
+      /* 정렬 버튼 그룹 */
+      .sort-grid {
+        display: grid; grid-template-columns: 1fr 1fr; gap: 7px;
+      }
+      .sort-btn {
+        padding: 11px 6px; border-radius: var(--radius-sm);
+        border: 1px solid var(--border); background: var(--bg);
+        color: var(--text-sec); font-size: 12px; font-weight: 500;
+        font-family: 'Noto Sans KR', sans-serif; cursor: pointer;
+        text-align: center; transition: all 0.15s; line-height: 1.5;
+      }
+      .sort-btn .sort-icon { font-size: 16px; display: block; margin-bottom: 4px; }
+      .sort-btn:hover { border-color: var(--accent); background: var(--accent-lt); color: var(--accent); }
+      .sort-btn:active { transform: scale(0.97); }
+
+      /* ── 토스트 ── */
       #toast-container {
-        position: fixed; bottom: 18px; left: 50%; transform: translateX(-50%);
-        display: flex; flex-direction: column; gap: 5px;
+        position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%);
+        display: flex; flex-direction: column; gap: 6px;
         z-index: 9999; pointer-events: none;
       }
       .toast {
-        background: var(--bg-card); border: 1px solid var(--border);
-        border-left: 3px solid var(--accent); border-radius: 4px;
-        padding: 7px 14px; font-size: 11px; color: var(--text-sec); white-space: nowrap;
+        background: var(--text-pri); color: #fff;
+        border-radius: var(--radius-sm); padding: 10px 18px;
+        font-size: 13px; font-weight: 500; white-space: nowrap;
+        box-shadow: var(--shadow-md);
         animation: toastIn 0.2s ease, toastOut 0.3s ease 2s forwards;
+        display: flex; align-items: center; gap: 8px;
       }
-      .toast.success { border-left-color: var(--success); }
-      .toast.warn    { border-left-color: var(--warning); }
-      @keyframes toastIn  { from{opacity:0;transform:translateY(6px)} to{opacity:1;transform:translateY(0)} }
-      @keyframes toastOut { from{opacity:1} to{opacity:0} }
+      .toast::before { content: '●'; font-size: 8px; color: var(--text-mut); }
+      .toast.success::before { color: var(--success); }
+      .toast.warn::before   { color: var(--warning); }
+      @keyframes toastIn  { from{opacity:0;transform:translateY(8px)} to{opacity:1;transform:translateY(0)} }
+      @keyframes toastOut { from{opacity:1} to{opacity:0;transform:translateY(-4px)} }
     </style>
   </head>
   <body>
 
+    <!-- 상단 TopBar -->
+    <div id="topbar">
+      <span class="logo">제품 배치</span>
+      <div class="divider"></div>
+      <span class="title">DeformShader</span>
+      <div class="spacer"></div>
+      <button class="top-btn" onclick="resetCamera()">카메라 초기화</button>
+      <button class="top-btn" onclick="savePrintImage()">🖨 이미지 저장</button>
+      <button class="top-btn primary" onclick="exportPrompt()">↑ 프롬프트 내보내기</button>
+    </div>
+
     <div id="app-layout">
 
-      <!-- ① 제품 리스트 -->
+      <!-- ① 왼쪽: 제품 리스트 -->
       <div id="panel-products">
         <div class="panel-header">
-          <div class="dot"></div>
-          <h2>제품 배치</h2>
-          <div class="badge" id="product-count">0</div>
+          <h2>제품 목록</h2>
+          <span class="badge" id="product-count">0</span>
         </div>
         <div class="product-search">
           <input type="text" id="search-input" placeholder="제품 검색..." oninput="filterProducts(this.value)">
         </div>
+        <div class="cat-filter" id="cat-filter">
+          <!-- JS가 카테고리 탭을 동적 생성 -->
+        </div>
         <div id="product-list">
-          <!-- Unity가 LoadJson 호출 전까지 대기 메시지 표시 -->
           <div class="list-empty">
-            <div class="empty-icon">⧖</div>
+            <span class="empty-icon">⧖</span>
             Unity 로딩 대기 중...<br>
             <small>제품 목록은 Unity가<br>데이터를 전달하면 표시됩니다</small>
           </div>
         </div>
         <div class="list-footer">
-          <button onclick="selectAllProducts()">전체 선택</button>
-          <button onclick="clearSelection()">선택 해제</button>
+          <button onclick="selectAllProducts()">전체 생성</button>
+          <button onclick="clearSelection()">전체 삭제</button>
         </div>
       </div>
 
-      <!-- ② 편의기능 -->
-      <div id="panel-controls">
-        <div class="ctrl-section">
-          <div class="ctrl-title">포장공간비율</div>
-          <div class="ctrl-info">사용률 <span id="space-ratio">0%</span></div>
-          <div class="ctrl-info">배치 수 <span id="placed-count">0 / 0</span></div>
-        </div>
-        <div class="ctrl-section">
-          <div class="ctrl-title">편의기능</div>
-          <button class="ctrl-btn is-on" id="btn-grid-on" onclick="setProductGrid(true)">
-            <span class="ctrl-icon">⊞</span> 제품 그리드 On
-            <span class="state-badge">ON</span>
-          </button>
-          <button class="ctrl-btn" id="btn-grid-off" onclick="setProductGrid(false)">
-            <span class="ctrl-icon">⊟</span> 제품 그리드 Off
-          </button>
-          <button class="ctrl-btn" onclick="resetCamera()">
-            <span class="ctrl-icon">⌖</span> 카메라 위치 초기화
-          </button>
-          <button class="ctrl-btn is-primary" onclick="savePrintImage()">
-            <span class="ctrl-icon">🖨</span> 프린트 이미지저장
-          </button>
-          <button class="ctrl-btn is-primary" onclick="exportPrompt()">
-            <span class="ctrl-icon">✦</span> 프롬프트 내보내기
-          </button>
-        </div>
-        <div class="ctrl-section">
-          <div class="ctrl-title">정렬</div>
-          <button class="ctrl-btn" onclick="sortProducts('BigSideSmallCenter')">  <span class="ctrl-icon">⇌</span> 제품정렬-대칭</button>
-          <button class="ctrl-btn" onclick="sortProducts('MountainPeak')">        <span class="ctrl-icon">◉</span> 제품정렬-중앙대큰산</button>
-          <button class="ctrl-btn" onclick="sortProducts('ValleyDip')">           <span class="ctrl-icon">▲</span> 제품정렬-골짜기모양</button>
-          <button class="ctrl-btn" onclick="sortProducts('RandomShuffle')">       <span class="ctrl-icon">⁑</span> 제품정렬-무작위</button>
-          <button class="ctrl-btn" onclick="sortProducts('SizeAscending')">       <span class="ctrl-icon">↑</span> 제품정렬-오름차순작큰</button>
-          <button class="ctrl-btn" onclick="sortProducts('SizeDescending')">      <span class="ctrl-icon">↓</span> 제품정렬-내림차순큰작</button>
-        </div>
-      </div>
-
-      <!-- ③ Unity -->
+      <!-- ② Unity 중앙 -->
       <div id="unity-wrapper">
         <div id="unity-container">
           <canvas id="unity-canvas" tabindex="-1"></canvas>
@@ -375,22 +477,78 @@
         </div>
       </div>
 
-    </div>
+      <!-- ③ 오른쪽: 편의기능 -->
+      <div id="panel-controls">
+
+        <!-- 포장공간비율 -->
+        <div class="ctrl-section">
+          <div class="ctrl-title">포장공간비율</div>
+          <div class="info-card">
+            <span class="info-label">사용률</span>
+            <span class="info-value" id="space-ratio">0%</span>
+          </div>
+          <div class="info-card">
+            <span class="info-label">배치 수</span>
+            <span class="info-value" id="placed-count">0 / 0</span>
+          </div>
+        </div>
+
+        <!-- 편의기능 -->
+        <div class="ctrl-section">
+          <div class="ctrl-title">편의기능</div>
+          <button class="ctrl-btn is-on" id="btn-grid-on" onclick="setProductGrid(true)">
+            <span class="ctrl-icon">⊞</span> 제품 그리드 On
+            <span class="state-badge">ON</span>
+          </button>
+          <button class="ctrl-btn" id="btn-grid-off" onclick="setProductGrid(false)">
+            <span class="ctrl-icon">⊟</span> 제품 그리드 Off
+          </button>
+        </div>
+
+        <!-- 정렬 -->
+        <div class="ctrl-section">
+          <div class="ctrl-title">제품 정렬</div>
+          <div class="sort-grid">
+            <button class="sort-btn" onclick="sortProducts('BigSideSmallCenter')">
+              <span class="sort-icon">⇌</span>대칭
+            </button>
+            <button class="sort-btn" onclick="sortProducts('MountainPeak')">
+              <span class="sort-icon">▲</span>중앙대큰산
+            </button>
+            <button class="sort-btn" onclick="sortProducts('ValleyDip')">
+              <span class="sort-icon">▽</span>골짜기모양
+            </button>
+            <button class="sort-btn" onclick="sortProducts('RandomShuffle')">
+              <span class="sort-icon">⁑</span>무작위
+            </button>
+            <button class="sort-btn" onclick="sortProducts('SizeAscending')">
+              <span class="sort-icon">↑</span>오름차순
+            </button>
+            <button class="sort-btn" onclick="sortProducts('SizeDescending')">
+              <span class="sort-icon">↓</span>내림차순
+            </button>
+          </div>
+        </div>
+
+      </div>
+
+    </div><!-- /app-layout -->
 
     <div id="toast-container"></div>
 
     <!-- ══ Unity 캔버스 크기 관리 ══ -->
     <script>
-      var PANEL_W  = 210;
-      var CTRL_W   = 196;
-      var FOOTER_H = 38;
+      var PANEL_W  = 300;
+      var CTRL_W   = 280;
+      var FOOTER_H = 36;
+      var TOPBAR_H = 48;
 
       function resizeUnity() {
         var container = document.getElementById('unity-container');
         var canvas    = document.getElementById('unity-canvas');
         if (!container || !canvas) return;
         var W = window.innerWidth  - PANEL_W - CTRL_W;
-        var H = window.innerHeight - FOOTER_H;
+        var H = window.innerHeight - FOOTER_H - TOPBAR_H;
         if (W < 1) W = 1;
         if (H < 1) H = 1;
         canvas.width  = W; canvas.height = H;
@@ -470,6 +628,7 @@
     <script>
       var STATE = {
         products: [], selectedIds: new Set(), placedIds: new Set(), gridOn: true,
+        currentCategory: 'all'
       };
       var UNITY_OBJ = 'WebBridge';
 
@@ -483,7 +642,8 @@
       window.OnUnityProductPlaced = function(jsonStr) {
         var data = JSON.parse(jsonStr);
         STATE.placedIds.add(data.productId);
-        refreshPlacedUI();
+        document.getElementById('placed-count').textContent =
+          STATE.placedIds.size + ' / ' + STATE.products.length;
         showToast(data.productId + ' 배치 완료', 'success');
       };
       window.OnUnitySpaceRatio = function(jsonStr) {
@@ -491,106 +651,100 @@
         document.getElementById('space-ratio').textContent = (data.ratio * 100).toFixed(1) + '%';
       };
 
-      /* ══════════════════════════════════════════════
-         LoadJson(mystrJson)
-         ──────────────────────────────────────────────
-         Unity C# 에서 호출하는 방법:
-           Application.ExternalCall("LoadJson", jsonString);
-
-         받는 JSON 포맷 (ProductDataListJson.json):
-         {
-           "productDataList": [
-             {
-               "productName": "Product-1",
-               "bundleURL":   "/ModelFile/xxx.unity3d",
-               "bundleName":  "xxx",
-               "ThumbnailURL":"xxx",
-               "category":    "bottle"
-             }, ...
-           ]
-         }
-      ══════════════════════════════════════════════ */
+      /* ══ LoadJson — Unity C#에서 호출 ══
+         Application.ExternalCall("LoadJson", jsonString);
+      */
       function LoadJson(mystrJson) {
         try {
           var parsed = JSON.parse(mystrJson);
           var list   = parsed.productDataList;
-
           if (!Array.isArray(list) || list.length === 0) {
             console.warn('[LoadJson] productDataList가 비어 있거나 없습니다.');
             return;
           }
-
-          // Unity JSON 필드 → 내부 STATE 포맷 변환
-          var products = list.map(function(item, idx) {
+          var products = list.map(function(item) {
             return {
-              id:          item.bundleName,    // Unity SendMessage 식별 키
-              name:        item.productName,   // 버튼 표시 이름
-              bundleURL:   item.bundleURL,
+              id:          item.bundleName,
+              name:        item.productName,
+              bundleURL:   'StreamingAssets' + item.bundleURL,
               bundleName:  item.bundleName,
-              modelName:item.modelName,
+              modelName:   item.modelName,
               category:    item.category || ''
             };
           });
-
-          // 리스트 갱신
           loadProducts(products);
-
           console.log('[LoadJson] 제품 ' + products.length + '개 로드 완료');
           showToast('제품 ' + products.length + '개 로드됨', 'success');
-
         } catch (e) {
           console.error('[LoadJson] JSON 파싱 오류:', e);
           showToast('JSON 파싱 오류', 'warn');
         }
       }
-      // ExternalCall 방식 전역 노출
       window.LoadJson = LoadJson;
 
-      /* ── 내부: 제품 리스트 갱신 ── */
+      /* ── 제품 리스트 ── */
       function loadProducts(data) {
         STATE.products = data;
+        STATE.currentCategory = 'all';
+        buildCategoryTabs(data);
         renderList(data);
         document.getElementById('product-count').textContent = data.length;
         document.getElementById('placed-count').textContent  = '0 / ' + data.length;
       }
 
+      function buildCategoryTabs(products) {
+        var cats = ['all'];
+        products.forEach(function(p) {
+          if (p.category && cats.indexOf(p.category) < 0) cats.push(p.category);
+        });
+        var filter = document.getElementById('cat-filter');
+        filter.innerHTML = '';
+        cats.forEach(function(c) {
+          var tab = document.createElement('button');
+          tab.className = 'cat-tab' + (c === 'all' ? ' active' : '');
+          tab.textContent = c === 'all' ? '전체' : c;
+          tab.onclick = function() {
+            STATE.currentCategory = c;
+            document.querySelectorAll('.cat-tab').forEach(function(t) { t.classList.remove('active'); });
+            tab.classList.add('active');
+            var filtered = c === 'all' ? STATE.products
+              : STATE.products.filter(function(p) { return p.category === c; });
+            renderList(filtered);
+          };
+          filter.appendChild(tab);
+        });
+      }
+
       function renderList(products) {
         var list = document.getElementById('product-list');
         list.innerHTML = '';
-
         if (!products || products.length === 0) {
-          list.innerHTML = '<div class="list-empty"><div class="empty-icon">⧖</div>Unity 로딩 대기 중...<br><small>제품 목록은 Unity가<br>데이터를 전달하면 표시됩니다</small></div>';
+          list.innerHTML = '<div class="list-empty"><span class="empty-icon">⧖</span>Unity 로딩 대기 중...<br><small>제품 목록은 Unity가<br>데이터를 전달하면 표시됩니다</small></div>';
           return;
         }
-
         products.forEach(function(p, i) {
           var btn = document.createElement('button');
           btn.className = 'product-btn';
           btn.dataset.id = p.id;
           btn.innerHTML =
-            '<span class="prod-icon">' + String(i + 1).padStart(2, '0') + '</span>' +
-            '<span class="prod-name">'  + p.name + '</span>' +
+            '<span class="prod-num">' + String(i + 1).padStart(2, '0') + '</span>' +
+            '<span class="prod-name">' + p.name + '</span>' +
             (p.category ? '<span class="prod-category">' + p.category + '</span>' : '');
-          btn.onclick = function() { spawnProduct(p.bundleURL, p.bundleName,p.category,p.modelName); };
+          btn.onclick = function() { spawnProduct(p.bundleURL, p.bundleName, p.category, p.modelName); };
           list.appendChild(btn);
         });
       }
 
-      // 버튼 클릭 → Unity에 제품 생성 명령만 전달 (선택 상태 없음)
-      function spawnProduct(id, bundleName,category,modelName) {
+      function spawnProduct(bundleURL, bundleName, category, modelName) {
         if (myGameInstance) {
-          var str = id+"|"+bundleName+"|"+category+"|"+modelName;
-          console.log("str:"+str);
+          var str = bundleURL + '|' + bundleName + '|' + category + '|' + modelName;
+          console.log('str:' + str);
           myGameInstance.SendMessage('ProductManager', 'ClickProduct', str);
         }
-        console.log('[→Unity] OnProductSelected', bundleName);
-        showToast(id + ' 생성 요청', 'success');
-
-       
+        showToast(bundleName + ' 생성 요청', 'success');
       }
 
       function selectAllProducts() {
-        // 전체 제품 일괄 생성
         STATE.products.forEach(function(p) {
           if (myGameInstance) myGameInstance.SendMessage('ProductManager', 'OnProductSelected', p.bundleName);
         });
@@ -599,18 +753,20 @@
 
       function clearSelection() {
         if (myGameInstance) myGameInstance.SendMessage('ProductManager', 'OnSelectionCleared', '');
-        showToast('선택이 해제되었습니다');
+        showToast('전체 삭제 요청');
       }
 
       function filterProducts(q) {
         q = q.trim().toLowerCase();
+        var base = STATE.currentCategory === 'all' ? STATE.products
+          : STATE.products.filter(function(p) { return p.category === STATE.currentCategory; });
         var filtered = q
-          ? STATE.products.filter(function(p) {
+          ? base.filter(function(p) {
               return p.name.toLowerCase().indexOf(q) >= 0
                   || p.id.toLowerCase().indexOf(q) >= 0
                   || (p.category && p.category.toLowerCase().indexOf(q) >= 0);
             })
-          : STATE.products;
+          : base;
         renderList(filtered);
       }
 
@@ -671,6 +827,18 @@
         c.appendChild(t);
         setTimeout(function() { if (t.parentNode) t.parentNode.removeChild(t); }, 2600);
       }
+
+      function SendPackingRatio(ratio)
+      {
+          document.getElementById('space-ratio').textContent = ratio + '%';
+
+      }
+      function SendProductCount(count)
+      {
+          document.getElementById('placed-count').textContent = count;
+        
+      }
+
     </script>
 
   </body>
