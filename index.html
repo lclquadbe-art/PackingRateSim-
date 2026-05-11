@@ -397,6 +397,87 @@
       .sort-btn:hover { border-color: var(--accent); background: var(--accent-lt); color: var(--accent); }
       .sort-btn:active { transform: scale(0.97); }
 
+      /* ══════════════════════════
+         중앙 상단 오버레이 — 포장공간비율 & 배치 수
+      ══════════════════════════ */
+      #top-center-overlay {
+        position: fixed;
+        top: calc(var(--topbar-h) + 10px);
+        left: 50%;
+        transform: translateX(-50%);
+        display: flex; gap: 10px; align-items: center;
+        z-index: 50;
+        pointer-events: none;
+      }
+      .overlay-card {
+        background: rgba(255,255,255,0.92);
+        border: 1px solid var(--border);
+        border-radius: var(--radius);
+        padding: 8px 18px;
+        display: flex; flex-direction: column; align-items: center; gap: 2px;
+        box-shadow: var(--shadow-md);
+        backdrop-filter: blur(6px);
+        min-width: 110px;
+      }
+      .overlay-card .ov-label {
+        font-size: 11px; font-weight: 600; letter-spacing: 0.06em;
+        text-transform: uppercase; color: var(--text-mut);
+      }
+      .overlay-card .ov-value {
+        font-size: 18px; font-weight: 700; color: var(--accent);
+        font-family: 'Inter', monospace; line-height: 1.2;
+      }
+      .overlay-divider {
+        width: 1px; height: 36px; background: var(--border);
+      }
+
+      /* ══════════════════════════
+         배치된 제품 목록 (우측 하단)
+      ══════════════════════════ */
+      #placed-list-section {
+        flex-shrink: 0;
+        border-top: 1px solid var(--border);
+      }
+      #placed-list-header {
+        padding: 12px 14px 8px;
+        display: flex; align-items: center; gap: 6px;
+        border-bottom: 1px solid var(--border);
+      }
+      #placed-list-header .ctrl-title { margin-bottom: 0; }
+      #placed-list-header .badge {
+        margin-left: auto;
+        font-size: 11px; font-weight: 600;
+        color: var(--accent); background: var(--accent-lt);
+        padding: 2px 9px; border-radius: 20px;
+      }
+      #placed-product-list {
+        max-height: 200px; overflow-y: auto;
+        padding: 6px 10px;
+        display: flex; flex-direction: column; gap: 4px;
+      }
+      .placed-item {
+        display: flex; align-items: center; gap: 8px;
+        padding: 7px 10px;
+        background: var(--bg);
+        border: 1px solid var(--border);
+        border-radius: var(--radius-sm);
+        font-size: 13px;
+      }
+      .placed-item .placed-dot {
+        width: 7px; height: 7px; border-radius: 50%;
+        background: var(--success); flex-shrink: 0;
+      }
+      .placed-item .placed-name { flex: 1; font-weight: 500; color: var(--text-pri); }
+      .placed-item .placed-cat {
+        font-size: 11px; padding: 2px 7px; border-radius: 20px;
+        background: var(--surface); border: 1px solid var(--border);
+        color: var(--text-mut); flex-shrink: 0;
+      }
+      .placed-empty {
+        text-align: center; padding: 16px 12px;
+        color: var(--text-mut); font-size: 12px;
+      }
+
       /* ── 토스트 ── */
       #toast-container {
         position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%);
@@ -422,13 +503,22 @@
 
     <!-- 상단 TopBar -->
     <div id="topbar">
-      <span class="logo">제품 배치</span>
-      <div class="divider"></div>
-      <span class="title">DeformShader</span>
+      <span class="logo">포장공간비율 간이측정</span>
       <div class="spacer"></div>
-      <button class="top-btn" onclick="resetCamera()">카메라 초기화</button>
       <button class="top-btn" onclick="savePrintImage()">🖨 이미지 저장</button>
-      <button class="top-btn primary" onclick="exportPrompt()">↑ 프롬프트 내보내기</button>
+    </div>
+
+    <!-- ▶ 중앙 상단 오버레이: 포장공간비율 & 배치 수 -->
+    <div id="top-center-overlay">
+      <div class="overlay-card">
+        <span class="ov-label">포장공간 비율</span>
+        <span class="ov-value" id="space-ratio-ov">0%</span>
+      </div>
+      <div class="overlay-divider"></div>
+      <div class="overlay-card">
+        <span class="ov-label">배치 수</span>
+        <span class="ov-value" id="placed-count-ov">0 / 0</span>
+      </div>
     </div>
 
     <div id="app-layout">
@@ -445,6 +535,17 @@
         <div class="cat-filter" id="cat-filter">
           <!-- JS가 카테고리 탭을 동적 생성 -->
         </div>
+        <!-- 배치된 제품 목록 (좌측 상단) -->
+        <div id="placed-list-section">
+          <div id="placed-list-header">
+            <span class="ctrl-title">배치된 제품 목록</span>
+            <span class="badge" id="placed-list-badge">0</span>
+          </div>
+          <div id="placed-product-list">
+            <div class="placed-empty">배치된 제품이 없습니다</div>
+          </div>
+        </div>
+
         <div id="product-list">
           <div class="list-empty">
             <span class="empty-icon">⧖</span>
@@ -452,10 +553,7 @@
             <small>제품 목록은 Unity가<br>데이터를 전달하면 표시됩니다</small>
           </div>
         </div>
-        <div class="list-footer">
-          <button onclick="selectAllProducts()">전체 생성</button>
-          <button onclick="clearSelection()">전체 삭제</button>
-        </div>
+
       </div>
 
       <!-- ② Unity 중앙 -->
@@ -480,8 +578,8 @@
       <!-- ③ 오른쪽: 편의기능 -->
       <div id="panel-controls">
 
-        <!-- 포장공간비율 -->
-        <div class="ctrl-section">
+        <!-- 포장공간비율 (오버레이로 이동, 숨김) -->
+        <div class="ctrl-section" style="display:none;">
           <div class="ctrl-title">포장공간비율</div>
           <div class="info-card">
             <span class="info-label">사용률</span>
@@ -502,6 +600,9 @@
           </button>
           <button class="ctrl-btn" id="btn-grid-off" onclick="setProductGrid(false)">
             <span class="ctrl-icon">⊟</span> 제품 그리드 Off
+          </button>
+          <button class="ctrl-btn" onclick="resetCamera()">
+            <span class="ctrl-icon">⟳</span> 카메라 초기화
           </button>
         </div>
 
@@ -532,8 +633,6 @@
 
       </div>
 
-    </div><!-- /app-layout -->
-
     <div id="toast-container"></div>
 
     <!-- ══ Unity 캔버스 크기 관리 ══ -->
@@ -557,7 +656,15 @@
         container.style.width  = W + 'px';
         container.style.height = H + 'px';
       }
-      window.addEventListener('resize', resizeUnity);
+
+      var _resizeTimer = null;
+      window.addEventListener('resize', function() {
+        resizeUnity();
+        clearTimeout(_resizeTimer);
+        _resizeTimer = setTimeout(function() {
+          if (myGameInstance) myGameInstance.SendMessage('BoxVolumeManager', 'UpdateBoxSize');
+        }, 100);
+      });
     </script>
 
     <!-- ══ Unity 로더 ══ -->
@@ -615,8 +722,13 @@
           myGameInstance = unityInstance;
           window.unityInstance = unityInstance;
           document.querySelector("#unity-loading-bar").style.display = "none";
+          var isFullscreen = false;
           document.querySelector("#unity-fullscreen-button").onclick = function() {
-            unityInstance.SetFullscreen(1);
+            isFullscreen = !isFullscreen;
+            unityInstance.SetFullscreen(isFullscreen ? 1 : 0);
+            setTimeout(function() {
+              if (myGameInstance) myGameInstance.SendMessage('BoxVolumeManager', 'UpdateBoxSize');
+            }, 300);
           };
           resizeUnity();
         }).catch(function(message) { alert(message); });
@@ -819,6 +931,75 @@
         if (myGameInstance) myGameInstance.SendMessage('ProductManager', 'ClickProductLineup', type);
       }
 
+      // Unity → Web: 포장공간비율 수신
+      // Application.ExternalCall("SendPackingRatio", "47.8821623137374");
+      function SendPackingRatio(ratio) {
+        var val = parseFloat(ratio);
+        var el  = document.getElementById('space-ratio');
+        var elOv = document.getElementById('space-ratio-ov');
+        var isOver = val > 25;
+        var txt = val.toFixed(2) + '% ' + (isOver ? '⚠ 보안' : '✔ 통과');
+        el.textContent  = txt;
+        elOv.textContent = txt;
+        var clr = isOver ? 'var(--danger)' : 'var(--success)';
+        el.style.color  = clr;
+        elOv.style.color = clr;
+      }
+      window.SendPackingRatio = SendPackingRatio;
+
+      /* ══ UpdateSendProductCount
+         Unity C#에서 JsonUtility.ToJson(packingProduct) 결과를 그대로 전달
+         형식: { "productDataList": [{ "productName":"", "category":"bottle", ... }, ...] }
+      */
+      function UpdateSendProductCount(jsonStr) {
+        try {
+          var parsed = typeof jsonStr === 'string' ? JSON.parse(jsonStr) : jsonStr;
+          var list   = parsed.productDataList;
+
+          if (!Array.isArray(list)) {
+            console.warn('[UpdateSendProductCount] productDataList 없음');
+            return;
+          }
+
+          var total = STATE.products.length || 0;
+          var count = list.length;
+
+          // ── 배치 수 오버레이 업데이트
+          var countTxt = count + (total > 0 ? ' / ' + total : '');
+          document.getElementById('placed-count').textContent    = countTxt;
+          document.getElementById('placed-count-ov').textContent = countTxt;
+
+          // ── 좌측 하단 배치 제품 목록 업데이트
+          var container = document.getElementById('placed-product-list');
+          var badge     = document.getElementById('placed-list-badge');
+
+          if (count === 0) {
+            container.innerHTML = '<div class="placed-empty">배치된 제품이 없습니다</div>';
+            badge.textContent = '0';
+            return;
+          }
+
+          container.innerHTML = '';
+          list.forEach(function(item, i) {
+            var row = document.createElement('div');
+            row.className = 'placed-item';
+            var displayName = item.productName || item.bundleName || ('제품 ' + (i + 1));
+            row.innerHTML =
+              '<span class="placed-dot"></span>' +
+              '<span class="placed-name">' + displayName + '</span>' +
+              (item.category ? '<span class="placed-cat">' + item.category + '</span>' : '');
+            container.appendChild(row);
+          });
+          badge.textContent = count;
+
+        } catch (e) {
+          console.error('[UpdateSendProductCount] JSON 파싱 오류:', e);
+          showToast('배치 목록 파싱 오류', 'warn');
+        }
+      }
+      window.SendProductCount      = UpdateSendProductCount;
+      window.UpdateSendProductCount = UpdateSendProductCount;
+
       function showToast(msg, type) {
         var c = document.getElementById('toast-container');
         var t = document.createElement('div');
@@ -827,18 +1008,6 @@
         c.appendChild(t);
         setTimeout(function() { if (t.parentNode) t.parentNode.removeChild(t); }, 2600);
       }
-
-      function SendPackingRatio(ratio)
-      {
-          document.getElementById('space-ratio').textContent = ratio + '%';
-
-      }
-      function SendProductCount(count)
-      {
-          document.getElementById('placed-count').textContent = count;
-        
-      }
-
     </script>
 
   </body>
