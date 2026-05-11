@@ -436,7 +436,7 @@
       ══════════════════════════ */
       #placed-list-section {
         flex-shrink: 0;
-        border-top: 1px solid var(--border);
+        border-bottom: 1px solid var(--border);
       }
       #placed-list-header {
         padding: 12px 14px 8px;
@@ -525,6 +525,17 @@
 
       <!-- ① 왼쪽: 제품 리스트 -->
       <div id="panel-products">
+        <!-- 배치된 제품 목록 (맨 위) -->
+        <div id="placed-list-section">
+          <div id="placed-list-header">
+            <span class="ctrl-title">배치된 제품 목록</span>
+            <span class="badge" id="placed-list-badge">0</span>
+          </div>
+          <div id="placed-product-list">
+            <div class="placed-empty">배치된 제품이 없습니다</div>
+          </div>
+        </div>
+
         <div class="panel-header">
           <h2>제품 목록</h2>
           <span class="badge" id="product-count">0</span>
@@ -534,16 +545,6 @@
         </div>
         <div class="cat-filter" id="cat-filter">
           <!-- JS가 카테고리 탭을 동적 생성 -->
-        </div>
-        <!-- 배치된 제품 목록 (좌측 상단) -->
-        <div id="placed-list-section">
-          <div id="placed-list-header">
-            <span class="ctrl-title">배치된 제품 목록</span>
-            <span class="badge" id="placed-list-badge">0</span>
-          </div>
-          <div id="placed-product-list">
-            <div class="placed-empty">배치된 제품이 없습니다</div>
-          </div>
         </div>
 
         <div id="product-list">
