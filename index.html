@@ -266,25 +266,70 @@
       #unity-container { position: relative; flex: 1; overflow: hidden; }
       #unity-canvas    { display: block; }
 
+      /* ── 로딩 오버레이 ── */
       #unity-loading-bar {
-        display: none; position: absolute;
-        left: 50%; top: 50%; transform: translate(-50%, -50%);
-        text-align: center; z-index: 5;
+        display: none;
+        position: absolute; inset: 0;
+        background: #ffffff;
+        z-index: 10;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
       }
+      #unity-loading-bar.visible {
+        display: flex;
+      }
+
       #unity-logo {
-        width: 154px; height: 130px;
-        background: url('TemplateData/unity-logo-dark.png') no-repeat center;
-        background-size: contain; margin: 0 auto 20px;
+        font-family: 'Inter', 'Noto Sans KR', sans-serif;
+        font-size: 22px;
+        font-weight: 300;
+        letter-spacing: 0.18em;
+        color: #1a1d23;
+        text-transform: uppercase;
+        margin-bottom: 40px;
+        width: auto; height: auto;
+        background: none;
+        opacity: 0;
+        animation: loaderFadeIn 0.6s ease 0.1s forwards;
       }
+
       #unity-progress-bar-empty {
-        width: 141px; height: 18px;
-        background: url('TemplateData/progress-bar-empty-dark.png') no-repeat center;
-        background-size: contain; margin: 0 auto; position: relative;
+        width: 180px;
+        height: 1px;
+        background: #e2e5eb;
+        position: relative;
+        border-radius: 1px;
+        margin: 0;
+        opacity: 0;
+        animation: loaderFadeIn 0.6s ease 0.3s forwards;
       }
+
       #unity-progress-bar-full {
-        position: absolute; left: 0; top: 0; width: 0%; height: 100%;
-        background: url('TemplateData/progress-bar-full-dark.png') no-repeat left;
-        background-size: contain;
+        position: absolute;
+        left: 0; top: 0;
+        height: 100%;
+        width: 0%;
+        background: var(--accent);
+        border-radius: 1px;
+        transition: width 0.3s ease;
+        margin: 0;
+      }
+
+      #loader-percent {
+        margin-top: 14px;
+        font-family: 'Inter', monospace;
+        font-size: 11px;
+        font-weight: 500;
+        letter-spacing: 0.1em;
+        color: var(--text-mut);
+        opacity: 0;
+        animation: loaderFadeIn 0.6s ease 0.4s forwards;
+      }
+
+      @keyframes loaderFadeIn {
+        from { opacity: 0; transform: translateY(6px); }
+        to   { opacity: 1; transform: translateY(0); }
       }
       #unity-warning { position: absolute; top: 0; left: 0; right: 0; z-index: 10; }
       #unity-footer {
@@ -562,10 +607,11 @@
         <div id="unity-container">
           <canvas id="unity-canvas" tabindex="-1"></canvas>
           <div id="unity-loading-bar">
-            <div id="unity-logo"></div>
+            <div id="unity-logo">Quad.<span>BE</span></div>
             <div id="unity-progress-bar-empty">
               <div id="unity-progress-bar-full"></div>
             </div>
+            <div id="loader-percent">0%</div>
           </div>
           <div id="unity-warning"></div>
         </div>
@@ -712,17 +758,20 @@
         document.getElementsByTagName('head')[0].appendChild(meta);
       }
 
-      document.querySelector("#unity-loading-bar").style.display = "block";
+      document.querySelector("#unity-loading-bar").classList.add("visible");
 
       var script = document.createElement("script");
       script.src = loaderUrl;
       script.onload = function() {
         createUnityInstance(canvas, config, function(progress) {
-          document.querySelector("#unity-progress-bar-full").style.width = 100 * progress + "%";
+          var pct = Math.round(100 * progress);
+          document.querySelector("#unity-progress-bar-full").style.width = pct + "%";
+          var el = document.getElementById("loader-percent");
+          if (el) el.textContent = pct + "%";
         }).then(function(unityInstance) {
           myGameInstance = unityInstance;
           window.unityInstance = unityInstance;
-          document.querySelector("#unity-loading-bar").style.display = "none";
+          document.querySelector("#unity-loading-bar").classList.remove("visible");
           var isFullscreen = false;
           document.querySelector("#unity-fullscreen-button").onclick = function() {
             isFullscreen = !isFullscreen;
