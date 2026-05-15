@@ -355,6 +355,7 @@
         min-width: var(--ctrl-w);
         max-width: var(--ctrl-w);
         height: 100%;
+        min-height: 0;
         background: var(--surface);
         border-left: 1px solid var(--border);
         display: flex; flex-direction: column; overflow-y: auto;
@@ -599,9 +600,10 @@
       #object-set {
         border: 2px solid var(--accent);
         border-radius: var(--radius);
-        margin: 10px 10px 0;
-        overflow: hidden;
+        margin: 10px 10px 10px;
+        overflow: visible;
         background: var(--surface);
+        flex-shrink: 0;
       }
       #object-set .ctrl-section {
         border-bottom: 1px solid var(--border);
