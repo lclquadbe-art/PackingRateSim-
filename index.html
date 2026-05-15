@@ -594,80 +594,101 @@
       }
 
       /* ══════════════════════════
-         활성화 부품명 / 재질 섹션
+         오브젝트 선택 세트 래퍼
       ══════════════════════════ */
+      #object-set {
+        border: 2px solid var(--accent);
+        border-radius: var(--radius);
+        margin: 10px 10px 0;
+        overflow: hidden;
+        background: var(--surface);
+      }
+      #object-set .ctrl-section {
+        border-bottom: 1px solid var(--border);
+        padding: 12px 12px 10px;
+      }
+      #object-set .ctrl-section:last-child { border-bottom: none; }
+      #object-set-header {
+        background: var(--accent);
+        padding: 7px 12px;
+        display: flex; align-items: center; gap: 7px;
+      }
+      #object-set-header span {
+        font-size: 11px; font-weight: 700;
+        letter-spacing: 0.07em; text-transform: uppercase; color: #fff;
+      }
+
+      /* 선택된 오브젝트명 */
+      .model-name-row {
+        display: flex; align-items: center;
+        background: var(--bg); border: 1px solid var(--border);
+        border-radius: var(--radius-sm); padding: 8px 12px; min-height: 34px;
+      }
+      .model-name-text {
+        font-size: 13px; font-weight: 600;
+        color: var(--accent); word-break: break-all; line-height: 1.4;
+      }
+      .model-name-empty { color: var(--text-mut); font-weight: 400; font-style: italic; }
 
       /* 부품 아이템 — 활성 선택 상태 */
-      .part-item.selected {
-        border-color: var(--accent);
-        background: var(--accent-lt);
-      }
+      .part-item.selected { border-color: var(--accent); background: var(--accent-lt); }
       .part-item.selected .part-dot { background: var(--accent); }
       .part-item.selected .part-name { color: var(--accent); font-weight: 500; }
 
       /* 활성 부품명 표시줄 */
       .active-part-bar {
-        background: var(--bg);
-        border: 1px solid var(--border);
-        border-radius: var(--radius-sm);
-        padding: 8px 12px;
-        font-size: 12px;
-        color: var(--text-sec);
+        background: var(--bg); border: 1px solid var(--border);
+        border-radius: var(--radius-sm); padding: 8px 12px;
+        font-size: 12px; color: var(--text-sec);
         margin-bottom: 10px;
-        display: flex; align-items: center; gap: 6px;
-        min-height: 34px;
+        display: flex; align-items: center; gap: 6px; min-height: 34px;
       }
       .active-part-bar .apb-label { color: var(--text-mut); flex-shrink: 0; }
       .active-part-bar .apb-name  { color: var(--accent); font-weight: 600; font-size: 12px; word-break: break-all; }
 
-      /* 재질 그룹 박스 */
-      .mat-group {
-        background: #e8f4fb;
-        border: 1px solid #b3d9ef;
-        border-radius: var(--radius);
-        padding: 10px 10px 8px;
-        margin-bottom: 10px;
-      }
-      .mat-group:last-of-type { margin-bottom: 0; }
-      .mat-group-title {
-        font-size: 13px; font-weight: 700;
-        color: #1a3a4f; margin-bottom: 8px;
+      /* 재질 그룹 비활성 오버레이 */
+      #mat-groups-wrap { position: relative; }
+      #mat-groups-wrap.disabled-overlay::after {
+        content: '부품을 먼저 선택해주세요';
+        position: absolute; inset: 0;
+        background: rgba(245,246,248,0.82);
+        display: flex; align-items: center; justify-content: center;
+        font-size: 12px; color: var(--text-mut);
+        border-radius: var(--radius-sm);
+        pointer-events: all;
       }
 
-      /* 재질 버튼 wrap */
-      .mat-btns {
-        display: flex; flex-wrap: wrap; gap: 5px;
-        margin-bottom: 8px;
+      /* 재질 그룹 박스 */
+      .mat-group {
+        background: #e8f4fb; border: 1px solid #b3d9ef;
+        border-radius: var(--radius); padding: 10px 10px 8px; margin-bottom: 10px;
       }
+      .mat-group:last-of-type { margin-bottom: 0; }
+      .mat-group-title { font-size: 13px; font-weight: 700; color: #1a3a4f; margin-bottom: 8px; }
+
+      .mat-btns { display: flex; flex-wrap: wrap; gap: 5px; margin-bottom: 8px; }
       .mat-btn {
-        padding: 5px 11px;
-        font-size: 12px; font-weight: 500;
+        padding: 5px 11px; font-size: 12px; font-weight: 500;
         font-family: 'Noto Sans KR', sans-serif;
-        border-radius: 20px;
-        border: 1px solid #7dbcd9;
-        background: #2a7aad;
-        color: #fff;
-        cursor: pointer;
-        transition: all 0.15s;
+        border-radius: 20px; border: 1px solid #7dbcd9;
+        background: #2a7aad; color: #fff; cursor: pointer; transition: all 0.15s;
       }
       .mat-btn:hover  { background: #1f5f8a; border-color: #1f5f8a; }
       .mat-btn.active { background: #0d3d5c; border-color: #0d3d5c; box-shadow: 0 0 0 2px rgba(13,61,92,0.25); }
 
-      /* 컬러 행 */
-      .color-row {
-        display: flex; align-items: center; gap: 8px; margin-top: 4px;
-      }
-      .color-row label {
-        font-size: 12px; color: #1a3a4f; font-weight: 500; flex-shrink: 0;
-      }
+      .color-row { display: flex; align-items: center; gap: 8px; margin-top: 4px; }
+      .color-row label { font-size: 12px; color: #1a3a4f; font-weight: 500; flex-shrink: 0; }
       .color-row input[type="color"] {
-        width: 100%; height: 32px;
-        border: 1px solid #7dbcd9;
-        border-radius: var(--radius-sm);
-        background: var(--surface);
-        cursor: pointer; padding: 2px 4px;
-        flex: 1;
+        width: 100%; height: 32px; border: 1px solid #7dbcd9;
+        border-radius: var(--radius-sm); background: var(--surface);
+        cursor: pointer; padding: 2px 4px; flex: 1;
       }
+
+      /* 애니메이션 버튼 */
+      .ctrl-btn.is-anim-play { background: #1a1d23; border-color: #1a1d23; color: #fff; }
+      .ctrl-btn.is-anim-play:hover { background: #2d3240; border-color: #2d3240; }
+      .ctrl-btn.is-anim-stop { background: var(--warning); border-color: #d97706; color: #fff; }
+      .ctrl-btn.is-anim-stop:hover { background: #d97706; }
 
       /* ── 토스트 ── */
       #toast-container {
@@ -768,82 +789,90 @@
       <!-- ③ 오른쪽: 편의기능 -->
       <div id="panel-controls">
 
-        <!-- [신규] 선택된 오브젝트 정보 -->
-        <div class="ctrl-section" id="click-object-section">
-          <div class="ctrl-title">선택된 오브젝트</div>
-          <div class="model-name-card" id="model-name-card">
-            <div class="model-icon-box">
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--accent)" stroke-width="2">
-                <rect x="2" y="3" width="20" height="14" rx="2"/>
-                <path d="M8 21h8M12 17v4"/>
-              </svg>
-            </div>
-            <span class="model-name-text model-name-empty" id="model-name-display">오브젝트 없음</span>
-          </div>
-        </div>
-
-        <!-- [신규] 부품 목록 -->
-        <div class="ctrl-section" id="parts-list-section">
-          <div class="parts-header">
-            <div class="ctrl-title">부품 목록</div>
-            <span class="badge" id="parts-count-badge">0</span>
-          </div>
-          <div id="parts-list-container">
-            <div class="placed-empty">오브젝트를 클릭하면<br>부품 목록이 표시됩니다</div>
-          </div>
-        </div>
-
-        <!-- [신규] 재질 설정 섹션 -->
-        <div class="ctrl-section" id="material-section">
-          <div class="ctrl-title">재질 설정</div>
-
-          <!-- 활성화 부품명 -->
-          <div class="active-part-bar">
-            <span class="apb-label">활성화부품명 :</span>
-            <span class="apb-name" id="active-part-name">선택 없음</span>
+        <!-- ▶ 오브젝트 선택 세트 (선택된 오브젝트 ~ 후가공 재질) -->
+        <div id="object-set">
+          <div id="object-set-header">
+            <span>오브젝트 재질 설정</span>
           </div>
 
-          <!-- 전체통일 버튼 -->
-          <button class="ctrl-btn is-primary" id="btn-standard-mat" style="margin-bottom:10px;" disabled onclick="applyStandardMaterial()">
-            <span class="ctrl-icon">⊜</span> 비슷하게 전체통일
-          </button>
-
-          <!-- 사출 재질 그룹 -->
-          <div class="mat-group">
-            <div class="mat-group-title">사출 재질</div>
-            <div class="mat-btns" id="injection-btns">
-              <button class="mat-btn" data-val="Plastic_Transparent"   data-step="injection" onclick="onMatBtn(this)">투명-플라스틱</button>
-              <button class="mat-btn" data-val="Glass_Transparent"     data-step="injection" onclick="onMatBtn(this)">투명-유리</button>
-              <button class="mat-btn" data-val="Plastic_Opaque"        data-step="injection" onclick="onMatBtn(this)">불투명-플라스틱</button>
-              <button class="mat-btn" data-val="Plastic_HalfTransparent" data-step="injection" onclick="onMatBtn(this)">반투명</button>
-            </div>
-            <div class="color-row">
-              <label>사출컬러</label>
-              <input type="color" id="injection-color" value="#ffffff"
-                     oninput="onColorChange('injection', this.value)">
+          <!-- 선택된 오브젝트 -->
+          <div class="ctrl-section">
+            <div class="ctrl-title">선택된 오브젝트</div>
+            <div class="model-name-row">
+              <span class="model-name-text model-name-empty" id="model-name-display">오브젝트 없음</span>
             </div>
           </div>
 
-          <!-- 후가공 재질 그룹 -->
-          <div class="mat-group">
-            <div class="mat-group-title">후가공 재질</div>
-            <div class="mat-btns" id="postproc-btns">
-              <button class="mat-btn" data-val="Plastic_Glossy"      data-step="postproc||coating" onclick="onMatBtn(this)">유광</button>
-              <button class="mat-btn" data-val="Plastic_Matt"        data-step="postproc||coating" onclick="onMatBtn(this)">무광</button>
-              <button class="mat-btn" data-val="Metalic_Glossy"      data-step="postproc||coating" onclick="onMatBtn(this)">메탈유광</button>
-              <button class="mat-btn" data-val="Metalic_Matt"        data-step="postproc||coating" onclick="onMatBtn(this)">메탈무광</button>
-              <button class="mat-btn" data-val="Pearl_Glossy"        data-step="postproc||coating" onclick="onMatBtn(this)">펄유광</button>
-              <button class="mat-btn" data-val="Pearl_Matt"          data-step="postproc||coating" onclick="onMatBtn(this)">펄무광</button>
-              <button class="mat-btn" data-val="Deposition_Glossy"   data-step="postproc||coating" onclick="onMatBtn(this)">증착유광</button>
-              <button class="mat-btn" data-val="Deposition_Matt"     data-step="postproc||coating" onclick="onMatBtn(this)">증착무광</button>
+          <!-- 부품 목록 -->
+          <div class="ctrl-section">
+            <div class="parts-header">
+              <div class="ctrl-title">부품 목록</div>
+              <span class="badge" id="parts-count-badge">0</span>
             </div>
-            <div class="color-row">
-              <label>후가공 컬러</label>
-              <input type="color" id="postproc-color" value="#ffffff"
-                     oninput="onColorChange('postproc||coating', this.value)">
+            <div id="parts-list-container">
+              <div class="placed-empty">오브젝트를 클릭하면<br>부품 목록이 표시됩니다</div>
             </div>
           </div>
-        </div>
+
+          <!-- 재질 설정 -->
+          <div class="ctrl-section">
+            <div class="ctrl-title">재질 설정</div>
+
+            <!-- 활성화 부품명 -->
+            <div class="active-part-bar">
+              <span class="apb-label">활성화부품명 :</span>
+              <span class="apb-name" id="active-part-name">선택 없음</span>
+            </div>
+
+            <!-- 전체통일 버튼 -->
+            <button class="ctrl-btn is-primary" id="btn-standard-mat" style="margin-bottom:10px;" disabled onclick="applyStandardMaterial()">
+              <span class="ctrl-icon">⊜</span> 비슷하게 전체통일
+            </button>
+
+            <!-- 사출/후가공 재질 그룹 — 부품 미선택 시 오버레이 -->
+            <div id="mat-groups-wrap" class="disabled-overlay">
+              <!-- 사출 재질 -->
+              <div class="mat-group">
+                <div class="mat-group-title">사출 재질</div>
+                <div class="mat-btns" id="injection-btns">
+                  <button class="mat-btn" data-val="Plastic_Transparent"     data-step="injection" onclick="onMatBtn(this)">투명-플라스틱</button>
+                  <button class="mat-btn" data-val="Glass_Transparent"       data-step="injection" onclick="onMatBtn(this)">투명-유리</button>
+                  <button class="mat-btn" data-val="Plastic_Opaque"          data-step="injection" onclick="onMatBtn(this)">불투명-플라스틱</button>
+                  <button class="mat-btn" data-val="Plastic_HalfTransparent" data-step="injection" onclick="onMatBtn(this)">반투명</button>
+                </div>
+                <div class="color-row">
+                  <label>사출컬러</label>
+                  <input type="color" id="injection-color" value="#ffffff" oninput="onColorChange('injection', this.value)">
+                </div>
+              </div>
+              <!-- 후가공 재질 -->
+              <div class="mat-group">
+                <div class="mat-group-title">후가공 재질</div>
+                <div class="mat-btns" id="postproc-btns">
+                  <button class="mat-btn" data-val="Plastic_Glossy"    data-step="postproc||coating" onclick="onMatBtn(this)">유광</button>
+                  <button class="mat-btn" data-val="Plastic_Matt"      data-step="postproc||coating" onclick="onMatBtn(this)">무광</button>
+                  <button class="mat-btn" data-val="Metalic_Glossy"    data-step="postproc||coating" onclick="onMatBtn(this)">메탈유광</button>
+                  <button class="mat-btn" data-val="Metalic_Matt"      data-step="postproc||coating" onclick="onMatBtn(this)">메탈무광</button>
+                  <button class="mat-btn" data-val="Pearl_Glossy"      data-step="postproc||coating" onclick="onMatBtn(this)">펄유광</button>
+                  <button class="mat-btn" data-val="Pearl_Matt"        data-step="postproc||coating" onclick="onMatBtn(this)">펄무광</button>
+                  <button class="mat-btn" data-val="Deposition_Glossy" data-step="postproc||coating" onclick="onMatBtn(this)">증착유광</button>
+                  <button class="mat-btn" data-val="Deposition_Matt"   data-step="postproc||coating" onclick="onMatBtn(this)">증착무광</button>
+                </div>
+                <div class="color-row">
+                  <label>후가공 컬러</label>
+                  <input type="color" id="postproc-color" value="#ffffff" oninput="onColorChange('postproc||coating', this.value)">
+                </div>
+              </div>
+            </div><!-- /mat-groups-wrap -->
+          </div>
+          <!-- 애니메이션 재생 -->
+          <div class="ctrl-section">
+            <button class="ctrl-btn is-anim-play" id="btn-anim" onclick="toggleAnim()">
+              <span class="ctrl-icon">▶</span> 애니메이션 재생
+            </button>
+          </div>
+
+        </div><!-- /object-set -->
 
         <!-- 포장공간비율 (숨김) -->
         <div class="ctrl-section" style="display:none;">
@@ -1369,6 +1398,7 @@
         document.querySelectorAll('.mat-btn').forEach(function(b) { b.classList.remove('active'); });
         document.getElementById('injection-color').value = '#ffffff';
         document.getElementById('postproc-color').value  = '#ffffff';
+        document.getElementById('mat-groups-wrap').classList.add('disabled-overlay');
       }
 
       /* ── 부품 선택 ── */
@@ -1376,14 +1406,32 @@
         STATE.activePart = partName;
         document.getElementById('active-part-name').textContent = partName;
 
-        // 행 하이라이트
-        document.querySelectorAll('.part-item').forEach(function(el) {
-          el.classList.remove('selected');
-        });
+        document.querySelectorAll('.part-item').forEach(function(el) { el.classList.remove('selected'); });
         if (rowEl) rowEl.classList.add('selected');
 
-        // 이전에 설정했던 재질/컬러 복원
+        // 재질 그룹 오버레이 해제
+        document.getElementById('mat-groups-wrap').classList.remove('disabled-overlay');
+
+        // 이전 설정 복원
         restoreMatUI(partName);
+      }
+
+      /* ── 애니메이션 토글 ── */
+      STATE.animPlaying = false;
+      function toggleAnim() {
+        var btn = document.getElementById('btn-anim');
+        STATE.animPlaying = !STATE.animPlaying;
+        if (STATE.animPlaying) {
+          btn.className = 'ctrl-btn is-anim-stop';
+          btn.innerHTML = '<span class="ctrl-icon">■</span> 애니메이션 정지';
+          if (myGameInstance) myGameInstance.SendMessage('WebDataManager', 'PlayAllAnimOpen');
+          showToast('애니메이션 재생', 'success');
+        } else {
+          btn.className = 'ctrl-btn is-anim-play';
+          btn.innerHTML = '<span class="ctrl-icon">▶</span> 애니메이션 재생';
+          if (myGameInstance) myGameInstance.SendMessage('WebDataManager', 'PlayAllAnimClose');
+          showToast('애니메이션 정지');
+        }
       }
 
       /* ── 재질 버튼 클릭 ── */
