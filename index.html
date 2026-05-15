@@ -791,104 +791,6 @@
       <!-- ③ 오른쪽: 편의기능 -->
       <div id="panel-controls">
 
-        <!-- ▶ 오브젝트 선택 세트 (선택된 오브젝트 ~ 후가공 재질) -->
-        <div id="object-set">
-          <div id="object-set-header">
-            <span>오브젝트 재질 설정</span>
-          </div>
-
-          <!-- 선택된 오브젝트 -->
-          <div class="ctrl-section">
-            <div class="ctrl-title">선택된 오브젝트</div>
-            <div class="model-name-row">
-              <span class="model-name-text model-name-empty" id="model-name-display">오브젝트 없음</span>
-            </div>
-          </div>
-
-          <!-- 부품 목록 -->
-          <div class="ctrl-section">
-            <div class="parts-header">
-              <div class="ctrl-title">부품 목록</div>
-              <span class="badge" id="parts-count-badge">0</span>
-            </div>
-            <div id="parts-list-container">
-              <div class="placed-empty">오브젝트를 클릭하면<br>부품 목록이 표시됩니다</div>
-            </div>
-          </div>
-
-          <!-- 재질 설정 -->
-          <div class="ctrl-section">
-            <div class="ctrl-title">재질 설정</div>
-
-            <!-- 활성화 부품명 -->
-            <div class="active-part-bar">
-              <span class="apb-label">활성화부품명 :</span>
-              <span class="apb-name" id="active-part-name">선택 없음</span>
-            </div>
-
-            <!-- 전체통일 버튼 -->
-            <button class="ctrl-btn is-primary" id="btn-standard-mat" style="margin-bottom:10px;" disabled onclick="applyStandardMaterial()">
-              <span class="ctrl-icon">⊜</span> 비슷하게 전체통일
-            </button>
-
-            <!-- 사출/후가공 재질 그룹 — 부품 미선택 시 오버레이 -->
-            <div id="mat-groups-wrap" class="disabled-overlay">
-              <!-- 사출 재질 -->
-              <div class="mat-group">
-                <div class="mat-group-title">사출 재질</div>
-                <div class="mat-btns" id="injection-btns">
-                  <button class="mat-btn" data-val="Plastic_Transparent"     data-step="injection" onclick="onMatBtn(this)">투명-플라스틱</button>
-                  <button class="mat-btn" data-val="Glass_Transparent"       data-step="injection" onclick="onMatBtn(this)">투명-유리</button>
-                  <button class="mat-btn" data-val="Plastic_Opaque"          data-step="injection" onclick="onMatBtn(this)">불투명-플라스틱</button>
-                  <button class="mat-btn" data-val="Plastic_HalfTransparent" data-step="injection" onclick="onMatBtn(this)">반투명</button>
-                </div>
-                <div class="color-row">
-                  <label>사출컬러</label>
-                  <input type="color" id="injection-color" value="#ffffff" oninput="onColorChange('injection', this.value)">
-                </div>
-              </div>
-              <!-- 후가공 재질 -->
-              <div class="mat-group">
-                <div class="mat-group-title">후가공 재질</div>
-                <div class="mat-btns" id="postproc-btns">
-                  <button class="mat-btn" data-val="Plastic_Glossy"    data-step="postproc||coating" onclick="onMatBtn(this)">유광</button>
-                  <button class="mat-btn" data-val="Plastic_Matt"      data-step="postproc||coating" onclick="onMatBtn(this)">무광</button>
-                  <button class="mat-btn" data-val="Metalic_Glossy"    data-step="postproc||coating" onclick="onMatBtn(this)">메탈유광</button>
-                  <button class="mat-btn" data-val="Metalic_Matt"      data-step="postproc||coating" onclick="onMatBtn(this)">메탈무광</button>
-                  <button class="mat-btn" data-val="Pearl_Glossy"      data-step="postproc||coating" onclick="onMatBtn(this)">펄유광</button>
-                  <button class="mat-btn" data-val="Pearl_Matt"        data-step="postproc||coating" onclick="onMatBtn(this)">펄무광</button>
-                  <button class="mat-btn" data-val="Deposition_Glossy" data-step="postproc||coating" onclick="onMatBtn(this)">증착유광</button>
-                  <button class="mat-btn" data-val="Deposition_Matt"   data-step="postproc||coating" onclick="onMatBtn(this)">증착무광</button>
-                </div>
-                <div class="color-row">
-                  <label>후가공 컬러</label>
-                  <input type="color" id="postproc-color" value="#ffffff" oninput="onColorChange('postproc||coating', this.value)">
-                </div>
-              </div>
-            </div><!-- /mat-groups-wrap -->
-          </div>
-          <!-- 애니메이션 재생 -->
-          <div class="ctrl-section">
-            <button class="ctrl-btn is-anim-play" id="btn-anim" onclick="toggleAnim()">
-              <span class="ctrl-icon">▶</span> 애니메이션 재생
-            </button>
-          </div>
-
-        </div><!-- /object-set -->
-
-        <!-- 포장공간비율 (숨김) -->
-        <div class="ctrl-section" style="display:none;">
-          <div class="ctrl-title">포장공간비율</div>
-          <div class="info-card">
-            <span class="info-label">사용률</span>
-            <span class="info-value" id="space-ratio">0%</span>
-          </div>
-          <div class="info-card">
-            <span class="info-label">배치 수</span>
-            <span class="info-value" id="placed-count">0 / 0</span>
-          </div>
-        </div>
-
         <!-- 편의기능 -->
         <div class="ctrl-section">
           <div class="ctrl-title">편의기능</div>
@@ -926,6 +828,100 @@
             <button class="sort-btn" onclick="sortProducts('SizeDescending')">
               <span class="sort-icon">↓</span>내림차순
             </button>
+          </div>
+        </div>
+
+        <!-- ▶ 오브젝트 재질 설정 세트 -->
+        <div id="object-set">
+          <div id="object-set-header">
+            <span>오브젝트 재질 설정</span>
+          </div>
+
+          <!-- 선택된 오브젝트 -->
+          <div class="ctrl-section">
+            <div class="ctrl-title">선택된 오브젝트</div>
+            <div class="model-name-row">
+              <span class="model-name-text model-name-empty" id="model-name-display">오브젝트 없음</span>
+            </div>
+          </div>
+
+          <!-- 부품 목록 -->
+          <div class="ctrl-section">
+            <div class="parts-header">
+              <div class="ctrl-title">부품 목록</div>
+              <span class="badge" id="parts-count-badge">0</span>
+            </div>
+            <div id="parts-list-container">
+              <div class="placed-empty">오브젝트를 클릭하면<br>부품 목록이 표시됩니다</div>
+            </div>
+          </div>
+
+          <!-- 재질 설정 -->
+          <div class="ctrl-section">
+            <div class="ctrl-title">재질 설정</div>
+
+            <div class="active-part-bar">
+              <span class="apb-label">활성화부품명 :</span>
+              <span class="apb-name" id="active-part-name">선택 없음</span>
+            </div>
+
+            <button class="ctrl-btn is-primary" id="btn-standard-mat" style="margin-bottom:10px;" disabled onclick="applyStandardMaterial()">
+              <span class="ctrl-icon">⊜</span> 비슷하게 전체통일
+            </button>
+
+            <div id="mat-groups-wrap" class="disabled-overlay">
+              <div class="mat-group">
+                <div class="mat-group-title">사출 재질</div>
+                <div class="mat-btns" id="injection-btns">
+                  <button class="mat-btn" data-val="Plastic_Transparent"     data-step="injection" onclick="onMatBtn(this)">투명-플라스틱</button>
+                  <button class="mat-btn" data-val="Glass_Transparent"       data-step="injection" onclick="onMatBtn(this)">투명-유리</button>
+                  <button class="mat-btn" data-val="Plastic_Opaque"          data-step="injection" onclick="onMatBtn(this)">불투명-플라스틱</button>
+                  <button class="mat-btn" data-val="Plastic_HalfTransparent" data-step="injection" onclick="onMatBtn(this)">반투명</button>
+                </div>
+                <div class="color-row">
+                  <label>사출컬러</label>
+                  <input type="color" id="injection-color" value="#ffffff" oninput="onColorChange('injection', this.value)">
+                </div>
+              </div>
+              <div class="mat-group">
+                <div class="mat-group-title">후가공 재질</div>
+                <div class="mat-btns" id="postproc-btns">
+                  <button class="mat-btn" data-val="Plastic_Glossy"    data-step="postproc||coating" onclick="onMatBtn(this)">유광</button>
+                  <button class="mat-btn" data-val="Plastic_Matt"      data-step="postproc||coating" onclick="onMatBtn(this)">무광</button>
+                  <button class="mat-btn" data-val="Metalic_Glossy"    data-step="postproc||coating" onclick="onMatBtn(this)">메탈유광</button>
+                  <button class="mat-btn" data-val="Metalic_Matt"      data-step="postproc||coating" onclick="onMatBtn(this)">메탈무광</button>
+                  <button class="mat-btn" data-val="Pearl_Glossy"      data-step="postproc||coating" onclick="onMatBtn(this)">펄유광</button>
+                  <button class="mat-btn" data-val="Pearl_Matt"        data-step="postproc||coating" onclick="onMatBtn(this)">펄무광</button>
+                  <button class="mat-btn" data-val="Deposition_Glossy" data-step="postproc||coating" onclick="onMatBtn(this)">증착유광</button>
+                  <button class="mat-btn" data-val="Deposition_Matt"   data-step="postproc||coating" onclick="onMatBtn(this)">증착무광</button>
+                </div>
+                <div class="color-row">
+                  <label>후가공 컬러</label>
+                  <input type="color" id="postproc-color" value="#ffffff" oninput="onColorChange('postproc||coating', this.value)">
+                </div>
+              </div>
+            </div><!-- /mat-groups-wrap -->
+          </div>
+
+          <!-- 애니메이션 재생 -->
+          <div class="ctrl-section">
+            <button class="ctrl-btn is-anim-play" id="btn-anim" onclick="toggleAnim()">
+              <span class="ctrl-icon">▶</span> 애니메이션 재생
+            </button>
+          </div>
+
+        </div><!-- /object-set -->
+
+        <!-- 포장공간비율 (숨김) -->
+        <div class="ctrl-section" style="display:none;">
+          <div class="ctrl-title">포장공간비율</div>
+          <div class="info-card">
+            <span class="info-label">사용률</span>
+            <span class="info-value" id="space-ratio">0%</span>
+          </div>
+          <div class="info-card">
+            <span class="info-label">배치 수</span>
+            <span class="info-value" id="placed-count">0 / 0</span>
           </div>
         </div>
 
