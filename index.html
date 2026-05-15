@@ -14,7 +14,7 @@
       :root {
         --panel-w:   300px;
         --ctrl-w:    280px;
-        --footer-h:  36px;
+        --footer-h:  0px;
         --topbar-h:  48px;
 
         --bg:        #f5f6f8;
@@ -781,11 +781,7 @@
           </div>
           <div id="unity-warning"></div>
         </div>
-        <div id="unity-footer">
-          <div id="unity-logo-title-footer"></div>
-          <div id="unity-build-title">DeformShader</div>
-          <div id="unity-fullscreen-button"></div>
-        </div>
+
       </div>
 
       <!-- ③ 오른쪽: 편의기능 -->
@@ -935,7 +931,7 @@
     <script>
       var PANEL_W  = 300;
       var CTRL_W   = 280;
-      var FOOTER_H = 36;
+      var FOOTER_H = 0;
       var TOPBAR_H = 48;
 
       function resizeUnity() {
@@ -1021,14 +1017,6 @@
           myGameInstance = unityInstance;
           window.unityInstance = unityInstance;
           document.querySelector("#unity-loading-bar").classList.remove("visible");
-          var isFullscreen = false;
-          document.querySelector("#unity-fullscreen-button").onclick = function() {
-            isFullscreen = !isFullscreen;
-            unityInstance.SetFullscreen(isFullscreen ? 1 : 0);
-            setTimeout(function() {
-              if (myGameInstance) myGameInstance.SendMessage('BoxVolumeManager', 'UpdateBoxSize');
-            }, 300);
-          };
           resizeUnity();
         }).catch(function(message) { alert(message); });
       };
