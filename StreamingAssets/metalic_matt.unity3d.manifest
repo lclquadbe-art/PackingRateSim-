@@ -1,0 +1,23 @@
+ManifestFileVersion: 0
+UnityVersion: 6000.3.0b2
+CRC: 743729163
+Hashes:
+  AssetFileHash:
+    serializedVersion: 2
+    Hash: 9f20fd430f6a738093e1be996a88367f
+  TypeTreeHash:
+    serializedVersion: 2
+    Hash: 4afb0d898c1c22a5e88248733bd69457
+  IncrementalBuildHash:
+    serializedVersion: 2
+    Hash: 2926e005504c304f2e1c0cc1c49956f8
+HashAppended: 0
+ClassTypes:
+- Class: 21
+  Script: {instanceID: 0}
+- Class: 48
+  Script: {instanceID: 0}
+SerializeReferenceClassIdentifiers: []
+Assets:
+- Assets/Resources/Material/Metalic_Matt.mat
+Dependencies: []

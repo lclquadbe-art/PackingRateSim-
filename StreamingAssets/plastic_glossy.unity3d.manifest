@@ -1,0 +1,23 @@
+ManifestFileVersion: 0
+UnityVersion: 6000.3.0b2
+CRC: 3036639905
+Hashes:
+  AssetFileHash:
+    serializedVersion: 2
+    Hash: e1272348d8da2c8670b320a60f7619cd
+  TypeTreeHash:
+    serializedVersion: 2
+    Hash: 4afb0d898c1c22a5e88248733bd69457
+  IncrementalBuildHash:
+    serializedVersion: 2
+    Hash: 72417bdb36738745671462392dfb7eb4
+HashAppended: 0
+ClassTypes:
+- Class: 21
+  Script: {instanceID: 0}
+- Class: 48
+  Script: {instanceID: 0}
+SerializeReferenceClassIdentifiers: []
+Assets:
+- Assets/Resources/Material/Plastic_Glossy.mat
+Dependencies: []

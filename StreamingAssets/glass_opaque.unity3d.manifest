@@ -1,0 +1,23 @@
+ManifestFileVersion: 0
+UnityVersion: 6000.3.0b2
+CRC: 718376049
+Hashes:
+  AssetFileHash:
+    serializedVersion: 2
+    Hash: d35d6ec3348ac02d0773980ea321df65
+  TypeTreeHash:
+    serializedVersion: 2
+    Hash: 4afb0d898c1c22a5e88248733bd69457
+  IncrementalBuildHash:
+    serializedVersion: 2
+    Hash: b6f62819651f24706f6cb2cdb22fa26d
+HashAppended: 0
+ClassTypes:
+- Class: 21
+  Script: {instanceID: 0}
+- Class: 48
+  Script: {instanceID: 0}
+SerializeReferenceClassIdentifiers: []
+Assets:
+- Assets/Resources/Material/Glass_Opaque.mat
+Dependencies: []

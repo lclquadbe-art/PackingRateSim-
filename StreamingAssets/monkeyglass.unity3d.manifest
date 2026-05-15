@@ -1,0 +1,23 @@
+ManifestFileVersion: 0
+UnityVersion: 6000.3.0b2
+CRC: 3242834341
+Hashes:
+  AssetFileHash:
+    serializedVersion: 2
+    Hash: 7eba3ff37c5a7f2f6c8a5cd78da84f4a
+  TypeTreeHash:
+    serializedVersion: 2
+    Hash: 4afb0d898c1c22a5e88248733bd69457
+  IncrementalBuildHash:
+    serializedVersion: 2
+    Hash: 47b5f98cd9dbb8830f94ada3a806f142
+HashAppended: 0
+ClassTypes:
+- Class: 21
+  Script: {instanceID: 0}
+- Class: 48
+  Script: {instanceID: 0}
+SerializeReferenceClassIdentifiers: []
+Assets:
+- Assets/Resources/Material/MonkeyGlass.mat
+Dependencies: []
