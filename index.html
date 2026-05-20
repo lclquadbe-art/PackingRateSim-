@@ -1529,7 +1529,7 @@
         var z = (zMm / 1000).toFixed(4);
         var gapStr = x + ',' + y + ',' + z;
         console.log('[BoxGap] SetBoxGap:', gapStr, '(입력:', xMm+'mm,', yMm+'mm,', zMm+'mm)');
-        if (myGameInstance) myGameInstance.SendMessage('BoxVolumeManager', 'SetBoxGap', gapStr);
+        if (myGameInstance) myGameInstance.SendMessage('WebDataManager', 'SetBoxGap', gapStr);
         showToast('간격 적용: ' + xMm + 'mm / ' + yMm + 'mm / ' + zMm + 'mm', 'success');
       }
 
@@ -1540,7 +1540,7 @@
         valMm = Math.min(10, Math.max(1, valMm));
         var val = (valMm / 1000).toFixed(4);
         console.log('[Thickness] SetThickness:', val, '(입력:', valMm + 'mm)');
-        if (myGameInstance) myGameInstance.SendMessage('BoxVolumeManager', 'SetThickness', val);
+        if (myGameInstance) myGameInstance.SendMessage('WebDataManager', 'SetThickness', val);
         showToast('두께 적용: ' + valMm + 'mm', 'success');
       }
 
