@@ -716,12 +716,44 @@
       }
       .mat-group-reset-btn:active { transform: scale(0.96); }
 
-      .color-row { display: flex; align-items: center; gap: 6px; margin-top: 2px; }
+      .color-row { display: flex; flex-direction: column; gap: 5px; margin-top: 4px; }
+      .color-row-top { display: flex; align-items: center; gap: 6px; }
       .color-row label { font-size: 11px; color: #1a3a4f; font-weight: 500; flex-shrink: 0; }
       .color-row input[type="color"] {
-        width: 100%; height: 26px; border: 1px solid #7dbcd9;
+        width: 38px; height: 26px; border: 1px solid #7dbcd9;
         border-radius: var(--radius-sm); background: var(--surface);
-        cursor: pointer; padding: 2px 3px; flex: 1;
+        cursor: pointer; padding: 2px 3px; flex-shrink: 0;
+      }
+      /* 색상 미리보기 박스 (color + alpha 합산) */
+      .color-preview {
+        flex: 1; height: 26px; border-radius: var(--radius-sm);
+        border: 1px solid #7dbcd9;
+        background-image: linear-gradient(45deg, #ccc 25%, transparent 25%),
+                          linear-gradient(-45deg, #ccc 25%, transparent 25%),
+                          linear-gradient(45deg, transparent 75%, #ccc 75%),
+                          linear-gradient(-45deg, transparent 75%, #ccc 75%);
+        background-size: 8px 8px;
+        background-position: 0 0, 0 4px, 4px -4px, -4px 0px;
+        position: relative; overflow: hidden;
+      }
+      .color-preview-fill {
+        position: absolute; inset: 0;
+      }
+      /* hex 값 표시 */
+      .color-hex-label {
+        font-size: 10px; font-family: 'Inter', monospace;
+        color: #1a3a4f; font-weight: 600; flex-shrink: 0; min-width: 74px;
+      }
+      /* 투명도 슬라이더 행 */
+      .alpha-row { display: flex; align-items: center; gap: 6px; }
+      .alpha-row label { font-size: 10px; color: #1a3a4f; font-weight: 500; flex-shrink: 0; }
+      .alpha-slider {
+        flex: 1; height: 6px; cursor: pointer; accent-color: #2a7aad;
+        border-radius: 3px;
+      }
+      .alpha-value {
+        font-size: 10px; font-family: 'Inter', monospace;
+        color: #1a3a4f; font-weight: 600; min-width: 34px; text-align: right; flex-shrink: 0;
       }
 
       /* 애니메이션 버튼 */
@@ -753,118 +785,6 @@
         font-size: 10px; font-weight: 700;
         letter-spacing: 0.07em; text-transform: uppercase; color: #fff;
       }
-
-      /* ══════════════════════════
-         이미지 업로드 & 분석 영역
-      ══════════════════════════ */
-      #pm-upload-section {
-        background: linear-gradient(135deg, #f0f4ff 0%, #faf5ff 100%);
-        border: 2px dashed var(--accent);
-        border-radius: var(--radius);
-        padding: 14px 14px 10px;
-        margin-bottom: 0;
-        position: relative;
-      }
-      #pm-upload-section .pm-label { margin-bottom: 6px; color: var(--accent); }
-
-      #pm-upload-drop {
-        display: flex; flex-direction: column; align-items: center;
-        gap: 6px; padding: 10px 0 6px; cursor: pointer;
-      }
-      #pm-upload-drop .drop-icon { font-size: 26px; line-height: 1; }
-      #pm-upload-drop .drop-text {
-        font-size: 12px; color: var(--text-sec); text-align: center; line-height: 1.5;
-      }
-      #pm-upload-drop .drop-hint { font-size: 10px; color: var(--text-mut); }
-      #pm-upload-input { display: none; }
-
-      #pm-upload-btn {
-        display: inline-flex; align-items: center; gap: 5px;
-        padding: 6px 14px; border-radius: 20px;
-        border: 1px solid var(--accent); background: var(--surface);
-        color: var(--accent); font-size: 12px; font-weight: 600;
-        font-family: 'Noto Sans KR', sans-serif;
-        cursor: pointer; transition: all 0.15s;
-      }
-      #pm-upload-btn:hover { background: var(--accent); color: #fff; }
-
-      /* 업로드된 이미지 미리보기 행 */
-      #pm-img-row {
-        display: none; align-items: flex-start; gap: 10px; margin-top: 8px;
-      }
-      #pm-img-row.visible { display: flex; }
-      #pm-img-thumb {
-        width: 80px; height: 60px; object-fit: cover;
-        border-radius: var(--radius-sm); border: 1px solid var(--border);
-        flex-shrink: 0;
-      }
-      #pm-img-info {
-        flex: 1; min-width: 0;
-        font-size: 11px; color: var(--text-sec); line-height: 1.6;
-      }
-      #pm-img-name {
-        font-weight: 600; color: var(--text-pri);
-        white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
-        margin-bottom: 2px;
-      }
-      #pm-img-remove {
-        font-size: 10px; color: var(--danger); cursor: pointer;
-        background: none; border: none; padding: 0;
-        font-family: 'Noto Sans KR', sans-serif;
-      }
-      #pm-img-remove:hover { text-decoration: underline; }
-
-      /* 분석 버튼 */
-      #pm-analyze-btn {
-        width: 100%; margin-top: 8px;
-        padding: 8px; border-radius: var(--radius-sm);
-        background: var(--accent); color: #fff;
-        border: none; font-size: 13px; font-weight: 700;
-        font-family: 'Noto Sans KR', sans-serif;
-        cursor: pointer; transition: background 0.15s;
-        display: flex; align-items: center; justify-content: center; gap: 6px;
-      }
-      #pm-analyze-btn:hover { background: var(--accent-dk); }
-      #pm-analyze-btn:disabled { opacity: 0.5; cursor: not-allowed; }
-
-      /* 분석 상태 표시 */
-      #pm-analyze-status {
-        margin-top: 7px;
-        font-size: 11px; border-radius: var(--radius-sm);
-        padding: 7px 10px; display: none; line-height: 1.5;
-      }
-      #pm-analyze-status.loading {
-        display: flex; align-items: center; gap: 7px;
-        background: var(--accent-lt); color: var(--accent);
-        border: 1px solid rgba(79,110,247,0.2);
-      }
-      #pm-analyze-status.success {
-        display: block;
-        background: var(--success-lt); color: #15803d;
-        border: 1px solid #86efac;
-      }
-      #pm-analyze-status.error {
-        display: block;
-        background: var(--danger-lt); color: var(--danger);
-        border: 1px solid #fca5a5;
-      }
-      .pm-spinner {
-        width: 14px; height: 14px; border-radius: 50%; flex-shrink: 0;
-        border: 2px solid rgba(79,110,247,0.2);
-        border-top-color: var(--accent);
-        animation: pmSpin 0.7s linear infinite;
-      }
-      @keyframes pmSpin { to { transform: rotate(360deg); } }
-
-      /* AI 분석 결과 요약 카드 */
-      #pm-analysis-card {
-        display: none; margin-top: 8px;
-        background: var(--surface); border: 1px solid var(--border);
-        border-radius: var(--radius-sm); padding: 8px 10px;
-        font-size: 11px; line-height: 1.7; color: var(--text-sec);
-      }
-      #pm-analysis-card.visible { display: block; }
-      #pm-analysis-card strong { color: var(--accent); }
 
       /* ── 재질 전체 리셋 행 ── */
       .mat-reset-row {
@@ -1086,36 +1006,16 @@
         </div>
         <div id="prompt-modal-body">
 
-          <!-- ★ 이미지 업로드 & AI 분석 -->
-          <div class="pm-section" id="pm-upload-section"
-               ondragover="event.preventDefault(); this.style.borderColor='#3a56d4';"
-               ondragleave="this.style.borderColor='var(--accent)';"
-               ondrop="onImgDrop(event)">
-            <div class="pm-label">📷 제품 이미지 업로드 → AI 자동 분석</div>
-            <div id="pm-upload-drop" onclick="document.getElementById('pm-upload-input').click()">
-              <span class="drop-icon">🗂</span>
-              <span class="drop-text">이미지 저장 버튼으로 내보낸 A4 이미지를 올려주세요<br>클릭하거나 파일을 드래그해서 업로드</span>
-              <span class="drop-hint">PNG / JPG · 최대 10MB</span>
-              <button id="pm-upload-btn" onclick="event.stopPropagation(); document.getElementById('pm-upload-input').click()">📁 파일 선택</button>
-            </div>
-            <input type="file" id="pm-upload-input" accept="image/*" onchange="onImgSelected(this)">
-
-            <!-- 미리보기 행 -->
-            <div id="pm-img-row">
-              <img id="pm-img-thumb" src="" alt="미리보기">
-              <div id="pm-img-info">
-                <div id="pm-img-name"></div>
-                <div style="font-size:10px;color:var(--text-mut);" id="pm-img-size"></div>
-                <button id="pm-img-remove" onclick="removeUploadedImg()">✕ 이미지 제거</button>
-              </div>
-            </div>
-
-            <button id="pm-analyze-btn" disabled onclick="analyzeImage()">
-              ✦ AI로 이미지 분석 → 옵션 자동 선택
-            </button>
-
-            <div id="pm-analyze-status"></div>
-            <div id="pm-analysis-card"></div>
+          <!-- 재질 설정 현황 -->
+          <div class="pm-section">
+            <div class="pm-label">제품 재질 설정 현황 <span class="pm-sublabel">— 오른쪽 패널에서 설정한 재질이 자동 반영</span></div>
+            <div id="pm-mat-summary" style="
+              font-size: 11px; border-radius: var(--radius-sm);
+              padding: 7px 10px; line-height: 1.6;
+              background: var(--bg); border: 1px solid var(--border);
+              color: var(--text-sec); display: none;
+            "></div>
+            <div id="pm-mat-detail" style="margin-top: 6px;"></div>
           </div>
 
           <!-- 디자인 스타일 -->
@@ -1196,6 +1096,21 @@
                 <span class="pm-toggle-slider"></span>
               </label>
               <span class="pm-toggle-desc">깨진 글자 / 워터마크 / 로고 최소화 옵션 적용<br><small>체크하면 의미 없는 글자, 워터마크 생성을 줄이는 네거티브 프롬프트를 추가합니다.</small></span>
+            </div>
+          </div>
+
+          <!-- 이미지 크롭 지시문 -->
+          <div class="pm-section">
+            <div class="pm-label">이미지 크롭 지시문</div>
+            <div class="pm-toggle-row">
+              <label class="pm-toggle">
+                <input type="checkbox" id="pm-crop-instruction" checked onchange="updatePreview()">
+                <span class="pm-toggle-slider"></span>
+              </label>
+              <span class="pm-toggle-desc">
+                검정 테두리 외부 영역 제거 지시 포함
+                <br><small>업로드한 이미지에서 <strong>검정색 테두리 안쪽만 사용</strong>하고 바깥은 무시하라는 지시문을 프롬프트에 추가합니다.</small>
+              </span>
             </div>
           </div>
 
@@ -1406,8 +1321,22 @@
                   <button class="mat-btn" data-val="Plastic_HalfTransparent" data-step="injection" onclick="onMatBtn(this)">반투명</button>
                 </div>
                 <div class="color-row">
-                  <label>사출컬러</label>
-                  <input type="color" id="injection-color" value="#ffffff" oninput="onColorChange('injection', this.value)">
+                  <div class="color-row-top">
+                    <label>사출컬러</label>
+                    <input type="color" id="injection-color" value="#ffffff"
+                           oninput="onColorChange('injection')">
+                    <div class="color-preview">
+                      <div class="color-preview-fill" id="injection-preview-fill" style="background:rgba(255,255,255,1);"></div>
+                    </div>
+                    <span class="color-hex-label" id="injection-hex-label">#ffffffff</span>
+                  </div>
+                  <div class="alpha-row">
+                    <label>투명도</label>
+                    <input type="range" class="alpha-slider" id="injection-alpha"
+                           min="0" max="255" value="255"
+                           oninput="onColorChange('injection')">
+                    <span class="alpha-value" id="injection-alpha-label">FF (100%)</span>
+                  </div>
                 </div>
               </div>
               <div class="mat-group">
@@ -1427,8 +1356,22 @@
                   <button class="mat-btn" data-val="Deposition_Matt"   data-step="postproc||coating" onclick="onMatBtn(this)">증착무광</button>
                 </div>
                 <div class="color-row">
-                  <label>후가공 컬러</label>
-                  <input type="color" id="postproc-color" value="#ffffff" oninput="onColorChange('postproc||coating', this.value)">
+                  <div class="color-row-top">
+                    <label>후가공 컬러</label>
+                    <input type="color" id="postproc-color" value="#ffffff"
+                           oninput="onColorChange('postproc||coating')">
+                    <div class="color-preview">
+                      <div class="color-preview-fill" id="postproc-preview-fill" style="background:rgba(255,255,255,1);"></div>
+                    </div>
+                    <span class="color-hex-label" id="postproc-hex-label">#ffffffff</span>
+                  </div>
+                  <div class="alpha-row">
+                    <label>투명도</label>
+                    <input type="range" class="alpha-slider" id="postproc-alpha"
+                           min="0" max="255" value="255"
+                           oninput="onColorChange('postproc||coating')">
+                    <span class="alpha-value" id="postproc-alpha-label">FF (100%)</span>
+                  </div>
                 </div>
               </div>
             </div><!-- /mat-groups-wrap -->
@@ -1928,15 +1871,19 @@
             b.classList.remove('active');
           });
           document.getElementById('injection-color').value = '#ffffff';
+          document.getElementById('injection-alpha').value = 255;
+          updateColorUI('injection');
           s.injectionMat   = null;
-          s.injectionColor = '#ffffff';
+          s.injectionColor = '#ffffffff';
         } else {
           document.querySelectorAll('#postproc-btns .mat-btn').forEach(function(b) {
             b.classList.remove('active');
           });
           document.getElementById('postproc-color').value = '#ffffff';
+          document.getElementById('postproc-alpha').value = 255;
+          updateColorUI('postproc||coating');
           s.postprocMat   = null;
-          s.postprocColor = '#ffffff';
+          s.postprocColor = '#ffffffff';
         }
 
         // Unity 전달 (UpdateMoldMaterial 과 동일한 JSON 형식)
@@ -1979,11 +1926,22 @@
           STATE.partSettings[partName] = {
             injectionMat:   null,
             postprocMat:    null,
-            injectionColor: '#ffffff',
-            postprocColor:  '#ffffff'
+            injectionColor: '#ffffffff',
+            postprocColor:  '#ffffffff'
           };
         }
         return STATE.partSettings[partName];
+      }
+
+      /* ── #RRGGBBAA → color(#RRGGBB) + alpha(0~255) 분리 ── */
+      function splitColorAlpha(fullHex) {
+        // fullHex: '#rrggbbAA' or '#rrggbb' (AA 없으면 FF)
+        if (!fullHex || fullHex.length < 7) return { hex: '#ffffff', alpha: 255 };
+        var hex   = fullHex.slice(0, 7);
+        var alpha = fullHex.length >= 9
+          ? parseInt(fullHex.slice(7, 9), 16)
+          : 255;
+        return { hex: hex, alpha: alpha };
       }
 
       /* ── UI에 저장된 상태 복원 ── */
@@ -1995,15 +1953,27 @@
         document.querySelectorAll('#postproc-btns .mat-btn').forEach(function(b) {
           b.classList.toggle('active', b.dataset.val === s.postprocMat);
         });
-        document.getElementById('injection-color').value = s.injectionColor;
-        document.getElementById('postproc-color').value  = s.postprocColor;
+        // 사출 색상+알파 복원
+        var inj = splitColorAlpha(s.injectionColor);
+        document.getElementById('injection-color').value = inj.hex;
+        document.getElementById('injection-alpha').value = inj.alpha;
+        updateColorUI('injection');
+        // 후가공 색상+알파 복원
+        var pp = splitColorAlpha(s.postprocColor);
+        document.getElementById('postproc-color').value = pp.hex;
+        document.getElementById('postproc-alpha').value = pp.alpha;
+        updateColorUI('postproc||coating');
       }
 
       /* ── UI 완전 리셋 ── */
       function resetMatUI() {
         document.querySelectorAll('.mat-btn').forEach(function(b) { b.classList.remove('active'); });
         document.getElementById('injection-color').value = '#ffffff';
+        document.getElementById('injection-alpha').value = 255;
+        updateColorUI('injection');
         document.getElementById('postproc-color').value  = '#ffffff';
+        document.getElementById('postproc-alpha').value  = 255;
+        updateColorUI('postproc||coating');
         document.getElementById('mat-groups-wrap').classList.add('disabled-overlay');
       }
 
@@ -2076,21 +2046,70 @@
       }
 
       /* ── 컬러 변경 → Unity ── */
-      function onColorChange(selectMoldStep, color) {
+      /* ── 색상+투명도 계산 헬퍼 ── */
+      function getColorWithAlpha(step) {
+        // step: 'injection' | 'postproc||coating'
+        var prefix   = step === 'injection' ? 'injection' : 'postproc';
+        var hexColor = document.getElementById(prefix + '-color').value;   // #rrggbb
+        var alphaInt = parseInt(document.getElementById(prefix + '-alpha').value); // 0~255
+        var alphaHex = alphaInt.toString(16).toUpperCase().padStart(2, '0');
+        return hexColor + alphaHex;   // #rrggbbAA
+      }
+
+      function updateColorUI(step) {
+        var prefix   = step === 'injection' ? 'injection' : 'postproc';
+        var hexColor = document.getElementById(prefix + '-color').value;
+        var alphaInt = parseInt(document.getElementById(prefix + '-alpha').value);
+        var alphaPct  = Math.round(alphaInt / 255 * 100);
+        var alphaHex  = alphaInt.toString(16).toUpperCase().padStart(2, '0');
+        var alphaFloat = (alphaInt / 255).toFixed(4);  // 0.0000 ~ 1.0000
+
+        // hex 라벨 (#rrggbbAA)
+        document.getElementById(prefix + '-hex-label').textContent = hexColor + alphaHex;
+        // 투명도 라벨: float 값 표시
+        document.getElementById(prefix + '-alpha-label').textContent = parseFloat(alphaFloat).toFixed(2) + ' (' + alphaPct + '%)';
+        // 미리보기
+        var r = parseInt(hexColor.slice(1,3),16);
+        var g = parseInt(hexColor.slice(3,5),16);
+        var b = parseInt(hexColor.slice(5,7),16);
+        document.getElementById(prefix + '-preview-fill').style.background =
+          'rgba(' + r + ',' + g + ',' + b + ',' + alphaFloat + ')';
+      }
+
+      function onColorChange(selectMoldStep) {
         if (!STATE.activePart) return;
         var productCode = STATE.activePart;
         var s = getPartSettings(productCode);
+        var prefix    = selectMoldStep === 'injection' ? 'injection' : 'postproc';
+        var hexColor  = document.getElementById(prefix + '-color').value;  // #rrggbb
+        var alphaInt  = parseInt(document.getElementById(prefix + '-alpha').value); // 0~255
+        var alphaHex  = alphaInt.toString(16).toUpperCase().padStart(2, '0');
+        var alphaFloat = (alphaInt / 255).toFixed(4);  // Unity로 보낼 0~1 float
+        var fullColor = hexColor + alphaHex;            // #RRGGBBAA (내부 저장용)
 
         if (selectMoldStep === 'injection') {
-          s.injectionColor = color;
+          s.injectionColor = fullColor;
+          updateColorUI('injection');
         } else {
-          s.postprocColor = color;
+          s.postprocColor = fullColor;
+          updateColorUI('postproc||coating');
         }
 
-        console.log('색상 변경:', productCode, selectMoldStep, color);
         if (myGameInstance) {
-          var json = '{ "objectID": "' + productCode + '", "color": "' + color + '", "moldStep": "' + selectMoldStep + '" }';
-          myGameInstance.SendMessage('WebDataManager', 'UpdaterMoldColor', json);
+          // ① 색상 전송
+          var colorJson = '{ "objectID": "' + productCode + '", "color": "' + hexColor + '", "moldStep": "' + selectMoldStep + '" }';
+          myGameInstance.SendMessage('WebDataManager', 'UpdaterMoldColor', colorJson);
+          console.log('[Color] UpdaterMoldColor:', colorJson);
+
+          // ② 알파 전송 — alpha: 0~1 float 문자열
+          var alphaJson = JSON.stringify({
+            assetBundleName: productCode,
+            objectID:        productCode,
+            moldStep:        selectMoldStep,
+            alpha:           alphaFloat   // "0.0000" ~ "1.0000"
+          });
+          myGameInstance.SendMessage('WebDataManager', 'UpdateMoldAlpha', alphaJson);
+          console.log('[Alpha] UpdateMoldAlpha:', alphaJson);
         }
       }
 
@@ -2109,150 +2128,6 @@
 
     <!-- ══ 프롬프트 생성 모달 JS ══ -->
     <script>
-      /* ══ 이미지 업로드 & AI 분석 ══ */
-      var PM_IMG_B64  = null;   // base64 data (without prefix)
-      var PM_IMG_MIME = null;   // e.g. "image/png"
-
-      function onImgSelected(input) {
-        if (!input.files || !input.files[0]) return;
-        loadImgFile(input.files[0]);
-      }
-      function onImgDrop(e) {
-        e.preventDefault();
-        document.getElementById('pm-upload-section').style.borderColor = 'var(--accent)';
-        var file = e.dataTransfer.files[0];
-        if (file && file.type.startsWith('image/')) loadImgFile(file);
-      }
-      function loadImgFile(file) {
-        var reader = new FileReader();
-        reader.onload = function(ev) {
-          var dataUrl = ev.target.result;
-          var comma   = dataUrl.indexOf(',');
-          PM_IMG_B64  = dataUrl.slice(comma + 1);
-          PM_IMG_MIME = file.type || 'image/png';
-
-          document.getElementById('pm-img-thumb').src = dataUrl;
-          document.getElementById('pm-img-name').textContent = file.name;
-          document.getElementById('pm-img-size').textContent = (file.size / 1024).toFixed(0) + ' KB';
-          document.getElementById('pm-img-row').classList.add('visible');
-          document.getElementById('pm-upload-drop').style.display = 'none';
-          document.getElementById('pm-analyze-btn').disabled = false;
-          setAnalyzeStatus('idle');
-          document.getElementById('pm-analysis-card').classList.remove('visible');
-        };
-        reader.readAsDataURL(file);
-      }
-      function removeUploadedImg() {
-        PM_IMG_B64 = null; PM_IMG_MIME = null;
-        document.getElementById('pm-upload-input').value = '';
-        document.getElementById('pm-img-thumb').src = '';
-        document.getElementById('pm-img-row').classList.remove('visible');
-        document.getElementById('pm-upload-drop').style.display = 'flex';
-        document.getElementById('pm-analyze-btn').disabled = true;
-        setAnalyzeStatus('idle');
-        document.getElementById('pm-analysis-card').classList.remove('visible');
-      }
-      function setAnalyzeStatus(state, msg) {
-        var el = document.getElementById('pm-analyze-status');
-        el.className = '';
-        el.innerHTML = '';
-        if (state === 'loading') {
-          el.className = 'loading';
-          el.innerHTML = '<div class="pm-spinner"></div>' + (msg || 'AI가 이미지를 분석하고 있습니다...');
-        } else if (state === 'success') {
-          el.className = 'success';
-          el.textContent = msg || '분석 완료! 아래 옵션이 자동 선택됐습니다. 수동으로 수정할 수 있습니다.';
-        } else if (state === 'error') {
-          el.className = 'error';
-          el.textContent = msg || '분석 중 오류가 발생했습니다.';
-        }
-      }
-
-      /* ── Claude API 호출 ── */
-      async function analyzeImage() {
-        if (!PM_IMG_B64) return;
-        var btn = document.getElementById('pm-analyze-btn');
-        btn.disabled = true;
-        setAnalyzeStatus('loading');
-        document.getElementById('pm-analysis-card').classList.remove('visible');
-
-        var systemPrompt = [
-          'You are a skincare packaging design expert. Analyze the provided product image and return ONLY a valid JSON object with NO markdown, no explanation.',
-          'JSON schema:',
-          '{',
-          '  "style": one of ["minimalist, clean, modern packaging design", "luxury, elegant, premium packaging design", "natural, organic, eco-friendly packaging design", "bold, graphic, editorial packaging design", "retro, vintage, classic packaging design", "playful, colorful, youthful packaging design", "futuristic, sleek, high-tech packaging design", "artistic, hand-crafted, artisan packaging design"],',
-          '  "color": one of ["white and gold color palette", "black and silver color palette", "pastel pink and cream color palette", "deep green and beige color palette", "navy and white color palette", "terracotta and off-white color palette", "lavender and silver color palette", "earth tones, warm brown and cream color palette", "monochrome, all-white color palette", "vibrant, multi-color bold palette"],',
-          '  "shapeDesc": short English description of product shape (max 10 words),',
-          '  "colorDesc": short English description of actual colors seen (max 8 words),',
-          '  "styleReason": one sentence in Korean explaining why you picked that style,',
-          '  "colorReason": one sentence in Korean explaining why you picked that color palette',
-          '}'
-        ].join('\n');
-
-        var userPrompt = 'Analyze this skincare product packaging image and return the JSON as specified. Be accurate about the dominant style and color palette visible in the image.';
-
-        try {
-          var resp = await fetch('https://api.anthropic.com/v1/messages', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({
-              model: 'claude-sonnet-4-20250514',
-              max_tokens: 600,
-              system: systemPrompt,
-              messages: [{
-                role: 'user',
-                content: [
-                  { type: 'image', source: { type: 'base64', media_type: PM_IMG_MIME, data: PM_IMG_B64 } },
-                  { type: 'text',  text: userPrompt }
-                ]
-              }]
-            })
-          });
-
-          if (!resp.ok) throw new Error('API ' + resp.status);
-          var data = await resp.json();
-          var raw  = data.content.filter(function(b){ return b.type === 'text'; }).map(function(b){ return b.text; }).join('');
-          var clean = raw.replace(/```json|```/g, '').trim();
-          var result = JSON.parse(clean);
-          applyAnalysisResult(result);
-
-        } catch(err) {
-          console.error('[analyzeImage]', err);
-          setAnalyzeStatus('error', '분석 실패: ' + err.message + ' — 옵션을 직접 선택해주세요.');
-        } finally {
-          btn.disabled = false;
-        }
-      }
-
-      /* ── 분석 결과 → 칩 자동 선택 ── */
-      function applyAnalysisResult(result) {
-        // 스타일 칩 선택
-        if (result.style) {
-          document.querySelectorAll('[data-group="style"]').forEach(function(c){ c.classList.remove('active'); });
-          var styleChip = document.querySelector('[data-group="style"][data-val="' + result.style + '"]');
-          if (styleChip) { styleChip.classList.add('active'); PM.style = result.style; }
-        }
-        // 색상 칩 선택
-        if (result.color) {
-          document.querySelectorAll('[data-group="color"]').forEach(function(c){ c.classList.remove('active'); });
-          var colorChip = document.querySelector('[data-group="color"][data-val="' + result.color + '"]');
-          if (colorChip) { colorChip.classList.add('active'); PM.color = result.color; }
-        }
-        // 분석 요약 카드
-        var card = document.getElementById('pm-analysis-card');
-        card.innerHTML =
-          '<strong>🔍 AI 분석 결과</strong><br>' +
-          '📦 형태: ' + (result.shapeDesc || '-') + '<br>' +
-          '🎨 색상: ' + (result.colorDesc || '-') + '<br>' +
-          '💡 스타일 선택 이유: ' + (result.styleReason || '-') + '<br>' +
-          '🎨 색상 선택 이유: ' + (result.colorReason || '-');
-        card.classList.add('visible');
-
-        setAnalyzeStatus('success');
-        updatePreview();
-        showToast('AI 분석 완료! 스타일·색상 자동 선택됨', 'success');
-      }
-
       /* ══ PM 선택 상태 ══ */
       var PM = {
         style:    null,
@@ -2262,21 +2137,109 @@
         ratio:    '--ar 4:5'
       };
 
-      var PM_NEGATIVE = '--no watermark, logo, text, letters, words, typography, signature, label text, broken text, illegible text, blurry text, distorted text, random characters';
-      var PM_BASE = 'skincare product packaging design, cosmetic bottle and box, professional studio lighting, clean background, commercial photography style';
-      // 이미지 업로드 시 추가되는 레이아웃 보존 문구
-      var PM_LAYOUT_LOCK = 'IMPORTANT: strictly preserve the exact product layout and arrangement shown in the reference image. The black border in the reference image represents the box boundary. Do not reposition, resize, or rearrange any products. Products are arranged inside the box exactly as shown.';
+      var PM_NEGATIVE = '--no watermark, logo, text, letters, words, typography, signature, label text, broken text, illegible text, blurry text, distorted text, random characters, recolored products, changed product materials';
+
+      // ① 장면 설명: 패키징 박스 안에 스킨케어 제품들이 담긴 장면
+      var PM_BASE_SCENE = 'A skincare product gift set inside an open packaging box, bird\'s-eye or front-facing studio shot, the packaging box is fully visible as the main container, skincare bottles and containers are arranged inside the box, professional studio lighting, commercial product photography';
+
+      // ② 이미지 참조 지시문 — 박스를 "자르는 기준"이 아니라 "박스 형태"로 해석하도록
+      var PM_CROP_INSTRUCTION = [
+        '[REFERENCE IMAGE GUIDE]',
+        'The uploaded image shows skincare products arranged inside a packaging box.',
+        'The thick black rectangular border in the image = the shape and proportions of the packaging box itself.',
+        'Recreate this as a 3D rendered scene: a physical packaging box whose walls follow the black border shape, with the skincare products placed inside exactly as shown.',
+        'The box is the subject — render it with visible walls, depth, and material.',
+        'CRITICAL — preserve all proportions exactly:',
+        '(1) The box aspect ratio (width:height:depth) must exactly match the black border rectangle in the reference.',
+        '(2) Each product\'s size relative to the box must be preserved — do not scale up or down any individual product.',
+        '(3) The size ratio between products must be preserved — larger products in the reference must remain larger, smaller ones smaller.',
+        'Product positions and layout inside the box must exactly match the reference.',
+        'Ignore all content outside the black border (arrows, numbers, tables, white margins).'
+      ].join(' ');
+
+      // ③ 크롭 토글이 꺼져 있을 때 쓰는 기본 박스 설명
+      var PM_BASE_NOREF = 'A skincare product gift set neatly arranged inside an open packaging box, studio product photography, the packaging box is the main subject with products inside, preserve exact proportions of the box and all products relative to each other';
+
+      /* ── 재질 ID → 영문 프롬프트 매핑 ── */
+      var MAT_LABEL = {
+        'Plastic_Transparent':     'transparent plastic',
+        'Glass_Transparent':       'transparent glass',
+        'Plastic_Opaque':          'opaque plastic',
+        'Plastic_HalfTransparent': 'semi-transparent frosted plastic',
+        'Plastic_Glossy':          'glossy plastic finish',
+        'Plastic_Matt':            'matte plastic finish',
+        'Metalic_Glossy':          'glossy metallic finish',
+        'Metalic_Matt':            'matte metallic finish',
+        'Pearl_Glossy':            'glossy pearl finish',
+        'Pearl_Matt':              'matte pearl finish',
+        'Deposition_Glossy':       'glossy vacuum-deposited metallic finish',
+        'Deposition_Matt':         'matte vacuum-deposited metallic finish'
+      };
+
+      /* ── 재질 설정 → 프롬프트 텍스트 변환 ── */
+      function buildMaterialPrompt() {
+        if (!window.STATE || !STATE.partSettings) return '';
+        var entries = Object.entries(STATE.partSettings);
+        if (entries.length === 0) return '';
+
+        var lines = [];
+        entries.forEach(function(kv) {
+          var partName = kv[0];
+          var s        = kv[1];
+          if (!s.injectionMat && !s.postprocMat) return;
+
+          var desc = [];
+          if (s.injectionMat) {
+            var injLabel = MAT_LABEL[s.injectionMat] || s.injectionMat;
+            var injColor = s.injectionColor && s.injectionColor !== '#ffffff'
+              ? ' in ' + s.injectionColor : '';
+            desc.push(injLabel + injColor);
+          }
+          if (s.postprocMat) {
+            var ppLabel = MAT_LABEL[s.postprocMat] || s.postprocMat;
+            var ppColor = s.postprocColor && s.postprocColor !== '#ffffff'
+              ? ' in ' + s.postprocColor : '';
+            desc.push(ppLabel + ppColor);
+          }
+          lines.push(partName + ': ' + desc.join(', '));
+        });
+
+        if (lines.length === 0) return '';
+        // 제품 재질/색상은 절대 바뀌지 않도록 강하게 명시
+        return '[PRODUCT MATERIALS — do NOT change these regardless of color palette: ' + lines.join(' | ') + ']';
+      }
 
       function buildPrompt() {
-        var parts = [PM_BASE];
-        // 이미지가 업로드된 경우 레이아웃 보존 문구 삽입
-        if (PM_IMG_B64) parts.push(PM_LAYOUT_LOCK);
-        if (PM.style)           parts.push(PM.style);
-        if (PM.designer.size)   parts.push(Array.from(PM.designer).join(', '));
-        if (PM.color)           parts.push(PM.color);
-        if (PM.quality)         parts.push(PM.quality);
-        var prompt = parts.join(', ');
-        if (PM.ratio)           prompt += ' ' + PM.ratio;
+        var cropOn = document.getElementById('pm-crop-instruction');
+        var useCrop = cropOn && cropOn.checked;
+
+        // 문단 1: 장면 설명
+        var scene = useCrop ? PM_BASE_SCENE : PM_BASE_NOREF;
+
+        // 문단 2: 이미지 참조 지시 (크롭 ON일 때만)
+        var refGuide = useCrop ? PM_CROP_INSTRUCTION : '';
+
+        // 문단 3: 제품 재질/색상 (고정값 — 색상 조합에 영향받지 않음)
+        var matDesc = buildMaterialPrompt();
+
+        // 문단 4: 박스/배경 스타일 옵션
+        var styleParts = [];
+        if (PM.style)         styleParts.push(PM.style);
+        if (PM.designer.size) styleParts.push(Array.from(PM.designer).join(', '));
+        // 색상은 박스와 배경에만 적용됨을 명시
+        if (PM.color)         styleParts.push('packaging box and background color: ' + PM.color + ' (apply this color ONLY to the box and background, NOT to the skincare products inside)');
+        if (PM.quality)       styleParts.push(PM.quality);
+        var styleStr = styleParts.join(', ');
+
+        // 전체 프롬프트 조립
+        var blocks = [];
+        if (refGuide) blocks.push(refGuide);
+        blocks.push(scene);
+        if (matDesc)  blocks.push(matDesc);
+        if (styleStr) blocks.push(styleStr);
+
+        var prompt = blocks.join('\n\n');
+        if (PM.ratio) prompt += ' ' + PM.ratio;
         return prompt;
       }
 
@@ -2286,20 +2249,23 @@
         var noText = document.getElementById('pm-no-text').checked;
         if (!box) return;
         box.textContent = buildPrompt();
-        // 이미지 업로드 상태 안내
-        var imgNote = document.getElementById('pm-img-note');
-        if (!imgNote) {
-          imgNote = document.createElement('div');
-          imgNote.id = 'pm-img-note';
-          imgNote.style.cssText = 'margin-top:6px;font-size:10px;color:#7c3aed;background:#f5f3ff;border:1px solid #c4b5fd;border-radius:4px;padding:5px 8px;line-height:1.6;display:none;';
-          box.parentNode.insertBefore(imgNote, box.nextSibling);
+
+        // 재질 설정 현황 카드 업데이트
+        var matCard = document.getElementById('pm-mat-summary');
+        if (matCard) {
+          var matDesc = buildMaterialPrompt();
+          if (matDesc) {
+            var entries = Object.entries(STATE.partSettings || {}).filter(function(kv){
+              return kv[1].injectionMat || kv[1].postprocMat;
+            });
+            matCard.innerHTML = '✅ ' + entries.length + '개 부품의 재질이 프롬프트에 반영됩니다.';
+            matCard.style.display = 'block';
+          } else {
+            matCard.innerHTML = '⚠ 오른쪽 패널에서 재질을 설정하면 자동으로 반영됩니다.';
+            matCard.style.display = 'block';
+          }
         }
-        if (PM_IMG_B64) {
-          imgNote.style.display = 'block';
-          imgNote.textContent = '💡 이미지와 함께 사용: 복사된 프롬프트를 AI 도구에 붙여넣은 후, 업로드한 이미지도 함께 첨부하세요. 레이아웃 보존 지시문이 프롬프트에 포함됐습니다.';
-        } else {
-          imgNote.style.display = 'none';
-        }
+
         if (noText) { neg.textContent = PM_NEGATIVE; neg.classList.add('visible'); }
         else        { neg.classList.remove('visible'); }
       }
@@ -2327,7 +2293,51 @@
       /* ── 모달 열기/닫기 ── */
       function openPromptModal() {
         document.getElementById('prompt-modal-overlay').classList.add('open');
+        renderMatDetail();
         updatePreview();
+      }
+
+      /* ── 재질 상세 테이블 렌더링 ── */
+      function renderMatDetail() {
+        var container = document.getElementById('pm-mat-detail');
+        if (!container) return;
+        if (!window.STATE || !STATE.partSettings) { container.innerHTML = ''; return; }
+
+        var entries = Object.entries(STATE.partSettings).filter(function(kv){
+          return kv[1].injectionMat || kv[1].postprocMat;
+        });
+
+        if (entries.length === 0) {
+          container.innerHTML = '';
+          return;
+        }
+
+        var html = '<div style="display:flex;flex-direction:column;gap:4px;">';
+        entries.forEach(function(kv) {
+          var partName = kv[0];
+          var s        = kv[1];
+          var injLabel = s.injectionMat ? (MAT_LABEL[s.injectionMat] || s.injectionMat) : null;
+          var ppLabel  = s.postprocMat  ? (MAT_LABEL[s.postprocMat]  || s.postprocMat)  : null;
+
+          html += '<div style="display:flex;align-items:flex-start;gap:7px;padding:5px 8px;background:var(--bg);border:1px solid var(--border);border-radius:var(--radius-sm);font-size:11px;">';
+          html += '<span style="font-weight:700;color:var(--accent);min-width:90px;flex-shrink:0;word-break:break-all;">' + partName + '</span>';
+          html += '<div style="flex:1;line-height:1.8;">';
+          if (injLabel) {
+            var injColorSwatch = s.injectionColor && s.injectionColor !== '#ffffff'
+              ? '<span style="display:inline-block;width:10px;height:10px;border-radius:2px;background:' + s.injectionColor + ';border:1px solid #ccc;vertical-align:middle;margin-left:4px;"></span>'
+              : '';
+            html += '<span style="color:var(--text-sec);">사출: </span><span style="color:var(--text-pri);font-weight:500;">' + injLabel + injColorSwatch + '</span><br>';
+          }
+          if (ppLabel) {
+            var ppColorSwatch = s.postprocColor && s.postprocColor !== '#ffffff'
+              ? '<span style="display:inline-block;width:10px;height:10px;border-radius:2px;background:' + s.postprocColor + ';border:1px solid #ccc;vertical-align:middle;margin-left:4px;"></span>'
+              : '';
+            html += '<span style="color:var(--text-sec);">후가공: </span><span style="color:var(--text-pri);font-weight:500;">' + ppLabel + ppColorSwatch + '</span>';
+          }
+          html += '</div></div>';
+        });
+        html += '</div>';
+        container.innerHTML = html;
       }
       function closePromptModal(e) {
         if (e && e.target !== document.getElementById('prompt-modal-overlay')) return;
@@ -2345,8 +2355,7 @@
         if (qEl) qEl.classList.add('active');
         if (rEl) rEl.classList.add('active');
         document.getElementById('pm-no-text').checked = true;
-        document.getElementById('pm-analysis-card').classList.remove('visible');
-        setAnalyzeStatus('idle');
+        document.getElementById('pm-crop-instruction').checked = true;
         updatePreview();
         showToast('프롬프트 리셋됨');
       }
