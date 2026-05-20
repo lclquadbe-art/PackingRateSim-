@@ -1159,7 +1159,7 @@
         z = Math.min(0.01, Math.max(0.002, z));
         var gapStr = x + ',' + y + ',' + z;
         console.log('[BoxGap] SetBoxGap:', gapStr);
-        if (myGameInstance) myGameInstance.SendMessage('BoxVolumeManager', 'SetBoxGap', gapStr);
+        if (myGameInstance) myGameInstance.SendMessage('WebDataManager', 'SetBoxGap', gapStr);
         showToast('간격 적용: ' + gapStr, 'success');
       }
 
@@ -1169,7 +1169,7 @@
         val = Math.min(0.01, Math.max(0.001, val));
         var thicknessStr = String(val);
         console.log('[Thickness] SetThickness:', thicknessStr);
-        if (myGameInstance) myGameInstance.SendMessage('BoxVolumeManager', 'SetThickness', thicknessStr);
+        if (myGameInstance) myGameInstance.SendMessage('WebDataManager', 'SetThickness', thicknessStr);
         showToast('두께 적용: ' + thicknessStr, 'success');
       }
 
