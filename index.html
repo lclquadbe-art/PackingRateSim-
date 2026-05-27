@@ -756,6 +756,86 @@
         color: #1a3a4f; font-weight: 600; min-width: 34px; text-align: right; flex-shrink: 0;
       }
 
+      /* ── 그라데이션 섹션 ── */
+      .gradient-group {
+        background: #f0f4ff; border: 1px solid #b3c9f5;
+        border-radius: var(--radius); padding: 8px 8px 6px; margin-bottom: 7px;
+      }
+      .gradient-group-title {
+        font-size: 11px; font-weight: 700; color: #1a2c5f; margin-bottom: 6px;
+        display: flex; align-items: center; justify-content: space-between;
+      }
+      .gradient-stop-list {
+        display: flex; flex-direction: column; gap: 5px; margin-bottom: 6px;
+      }
+      .gradient-stop-row {
+        display: flex; align-items: center; gap: 6px;
+        background: var(--surface); border: 1px solid var(--border);
+        border-radius: var(--radius-sm); padding: 4px 7px;
+      }
+      .gradient-stop-row .gs-label {
+        font-size: 10px; font-weight: 600; color: var(--accent);
+        min-width: 16px; flex-shrink: 0;
+      }
+      .gradient-stop-row input[type="color"] {
+        width: 32px; height: 22px; border: 1px solid #b3c9f5;
+        border-radius: var(--radius-sm); background: var(--surface);
+        cursor: pointer; padding: 2px; flex-shrink: 0;
+      }
+      .gradient-stop-row input[type="number"] {
+        width: 52px; padding: 3px 5px; font-size: 11px;
+        font-family: 'Inter', monospace; border: 1px solid var(--border);
+        border-radius: var(--radius-sm); background: var(--bg);
+        color: var(--text-pri); text-align: right;
+      }
+      .gradient-stop-row .gs-pct-label {
+        font-size: 10px; color: var(--text-sec); flex-shrink: 0;
+      }
+      .gradient-stop-row .gs-hex {
+        font-size: 10px; font-family: 'Inter', monospace;
+        color: var(--text-sec); flex: 1; text-align: right;
+      }
+      .gradient-stop-row .gs-del {
+        width: 18px; height: 18px; border-radius: 50%;
+        background: var(--danger-lt); border: 1px solid var(--danger);
+        color: var(--danger); font-size: 11px; line-height: 1;
+        cursor: pointer; display: flex; align-items: center; justify-content: center;
+        flex-shrink: 0; transition: all 0.15s;
+      }
+      .gradient-stop-row .gs-del:hover { background: var(--danger); color: #fff; }
+      .gradient-preview-bar {
+        height: 20px; border-radius: var(--radius-sm);
+        border: 1px solid var(--border); margin-bottom: 6px;
+        transition: background 0.2s;
+      }
+      .gradient-add-btn {
+        width: 100%; padding: 5px; font-size: 11px; font-weight: 600;
+        font-family: 'Noto Sans KR', sans-serif;
+        border-radius: var(--radius-sm); border: 1px dashed var(--accent);
+        background: var(--accent-lt); color: var(--accent);
+        cursor: pointer; transition: all 0.15s; margin-bottom: 5px;
+      }
+      .gradient-add-btn:hover { background: var(--accent); color: #fff; }
+      .gradient-flip-row {
+        display: flex; align-items: center; gap: 7px; margin-bottom: 5px;
+      }
+      .gradient-flip-row label {
+        font-size: 11px; color: #1a2c5f; font-weight: 500;
+      }
+      .gradient-flip-row input[type="checkbox"] {
+        width: 14px; height: 14px; accent-color: var(--accent); cursor: pointer;
+      }
+      .gradient-apply-btn {
+        width: 100%; padding: 7px; font-size: 12px; font-weight: 700;
+        font-family: 'Noto Sans KR', sans-serif;
+        border-radius: var(--radius-sm); border: none;
+        background: var(--accent); color: #fff;
+        cursor: pointer; transition: all 0.15s;
+        box-shadow: 0 2px 8px rgba(79,110,247,0.28);
+      }
+      .gradient-apply-btn:hover { background: var(--accent-dk); }
+      .gradient-apply-btn:active { transform: scale(0.98); }
+
       /* 애니메이션 버튼 */
       .ctrl-btn.is-anim-play { background: #1a1d23; border-color: #1a1d23; color: #fff; }
       .ctrl-btn.is-anim-play:hover { background: #2d3240; border-color: #2d3240; }
@@ -1375,6 +1455,32 @@
                 </div>
               </div>
             </div><!-- /mat-groups-wrap -->
+          </div>
+
+          <!-- 그라데이션 설정 -->
+          <div class="ctrl-section">
+            <div class="ctrl-title">그라데이션 설정</div>
+            <div id="gradient-groups-wrap">
+              <div class="gradient-group">
+                <div class="gradient-group-title">
+                  <span>색상 정지점 목록</span>
+                  <button class="mat-group-reset-btn" onclick="resetGradient()">↺ 리셋</button>
+                </div>
+                <!-- 미리보기 바 -->
+                <div class="gradient-preview-bar" id="gradient-preview-bar"></div>
+                <!-- 정지점 목록 -->
+                <div class="gradient-stop-list" id="gradient-stop-list"></div>
+                <!-- 추가 버튼 -->
+                <button class="gradient-add-btn" onclick="addGradientStop()">＋ 색상 추가</button>
+                <!-- 반전 체크박스 -->
+                <div class="gradient-flip-row">
+                  <input type="checkbox" id="gradient-flip">
+                  <label for="gradient-flip">이미지 반전 (isFlip)</label>
+                </div>
+                <!-- 적용 버튼 -->
+                <button class="gradient-apply-btn" onclick="applyGradient()">✔ 그라데이션 적용</button>
+              </div>
+            </div>
           </div>
 
           <!-- 애니메이션 재생 -->
@@ -2022,9 +2128,11 @@
         if (selectMoldStep === 'injection') {
           document.querySelectorAll('#injection-btns .mat-btn').forEach(function(b) { b.classList.remove('active'); });
           s.injectionMat = selectedOption;
+          STATE.activeStep = 'injection';
         } else {
           document.querySelectorAll('#postproc-btns .mat-btn').forEach(function(b) { b.classList.remove('active'); });
           s.postprocMat = selectedOption;
+          STATE.activeStep = selectMoldStep;
         }
         btn.classList.add('active');
 
@@ -2112,6 +2220,120 @@
           console.log('[Alpha] UpdateMoldAlpha:', alphaJson);
         }
       }
+
+      /* ══════════════════════════════════════
+         그라데이션 기능
+      ══════════════════════════════════════ */
+
+      // 정지점 목록: [{hexColor, percent}, ...]
+      STATE.gradientStops = [
+        { hexColor: '#ffffff', percent: 0 },
+        { hexColor: '#000000', percent: 100 }
+      ];
+      STATE.activeStep = 'injection';
+
+      /* 미리보기 바 갱신 */
+      function updateGradientPreview() {
+        var stops = STATE.gradientStops;
+        if (stops.length === 0) {
+          document.getElementById('gradient-preview-bar').style.background = 'var(--border)';
+          return;
+        }
+        var sorted = stops.slice().sort(function(a, b) { return a.percent - b.percent; });
+        var stops_css = sorted.map(function(s) {
+          return s.hexColor + ' ' + s.percent + '%';
+        }).join(', ');
+        document.getElementById('gradient-preview-bar').style.background =
+          'linear-gradient(to right, ' + stops_css + ')';
+      }
+
+      /* 정지점 목록 렌더링 */
+      function renderGradientStops() {
+        var list = document.getElementById('gradient-stop-list');
+        list.innerHTML = '';
+        STATE.gradientStops.forEach(function(stop, i) {
+          var row = document.createElement('div');
+          row.className = 'gradient-stop-row';
+          row.innerHTML =
+            '<span class="gs-label">' + (i + 1) + '</span>' +
+            '<input type="color" value="' + stop.hexColor + '" oninput="onGradientStopChange(this,' + i + ')">' +
+            '<input type="number" value="' + stop.percent + '" min="0" max="100" step="1" oninput="onGradientPercentChange(this,' + i + ')">' +
+            '<span class="gs-pct-label">%</span>' +
+            '<span class="gs-hex" id="gs-hex-' + i + '">' + stop.hexColor + '</span>' +
+            '<button class="gs-del" onclick="removeGradientStop(' + i + ')">✕</button>';
+          list.appendChild(row);
+        });
+        updateGradientPreview();
+      }
+
+      function onGradientStopChange(input, idx) {
+        STATE.gradientStops[idx].hexColor = input.value;
+        var hexEl = document.getElementById('gs-hex-' + idx);
+        if (hexEl) hexEl.textContent = input.value;
+        updateGradientPreview();
+      }
+
+      function onGradientPercentChange(input, idx) {
+        var val = parseInt(input.value);
+        if (isNaN(val)) val = 0;
+        if (val < 0) val = 0;
+        if (val > 100) val = 100;
+        STATE.gradientStops[idx].percent = val;
+        updateGradientPreview();
+      }
+
+      function addGradientStop() {
+        STATE.gradientStops.push({ hexColor: '#888888', percent: 50 });
+        renderGradientStops();
+      }
+
+      function removeGradientStop(idx) {
+        if (STATE.gradientStops.length <= 1) {
+          showToast('최소 1개 이상의 색상이 필요합니다', 'warn');
+          return;
+        }
+        STATE.gradientStops.splice(idx, 1);
+        renderGradientStops();
+      }
+
+      function resetGradient() {
+        STATE.gradientStops = [
+          { hexColor: '#ffffff', percent: 0 },
+          { hexColor: '#000000', percent: 100 }
+        ];
+        document.getElementById('gradient-flip').checked = false;
+        renderGradientStops();
+        showToast('그라데이션 리셋됨', 'danger');
+      }
+
+      function applyGradient() {
+        if (!STATE.activePart) {
+          showToast('먼저 부품을 선택해주세요', 'warn');
+          return;
+        }
+        var isFlip = document.getElementById('gradient-flip').checked;
+        var payload = JSON.stringify({
+          assetBundleName: "",
+          objectID:        STATE.activePart,
+          moldStep:        'postproc||coating',
+          topMargin:       '0',
+          bottomMargin:    '100',
+          isFlip:          isFlip ? 'true' : 'false',
+          colorList:       STATE.gradientStops.map(function(s) {
+            return {
+              hexColor: s.hexColor,
+              percent:  String(s.percent)
+            };
+          })
+        });
+        console.log('[Gradient] UpdateGradientColor:', payload);
+        if (myGameInstance) {
+          myGameInstance.SendMessage('WebDataManager', 'UpdateGradientColor', payload);
+        }
+        showToast('그라데이션 적용됨', 'success');
+      }
+
+      renderGradientStops();
 
       /* ── 토스트 ── */
       function showToast(msg, type) {
