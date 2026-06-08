@@ -186,6 +186,23 @@
       }
       .list-empty .empty-icon { font-size: 24px; margin-bottom: 8px; opacity: 0.3; display: block; }
 
+      .sample-btn {
+        border-color: var(--accent);
+        background: var(--accent-lt);
+        color: var(--accent);
+        font-weight: 700;
+      }
+      .sample-btn:hover {
+        background: var(--accent);
+        color: #fff;
+        border-color: var(--accent);
+      }
+      .sample-btn .prod-num {
+        background: var(--accent);
+        color: #fff;
+        font-size: 11px;
+      }
+
       .product-btn {
         width: 100%;
         background: var(--surface);
@@ -1117,13 +1134,10 @@
           <div class="pm-section">
             <div class="pm-label">디자이너 레퍼런스 <span class="pm-sublabel">(중복 선택 가능)</span></div>
             <div class="pm-chips" id="pm-designer">
+              <button class="pm-chip multi" data-group="designer" data-val="" data-none="true">없음</button>
               <button class="pm-chip multi" data-group="designer" data-val="in the style of Dieter Rams">디터 람스</button>
-              <button class="pm-chip multi" data-group="designer" data-val="in the style of Nendo">넨도</button>
               <button class="pm-chip multi" data-group="designer" data-val="in the style of Sagmeister & Walsh">Sagmeister & Walsh</button>
               <button class="pm-chip multi" data-group="designer" data-val="in the style of Kenya Hara">하라 켄야</button>
-              <button class="pm-chip multi" data-group="designer" data-val="in the style of Louise Fili">루이즈 필리</button>
-              <button class="pm-chip multi" data-group="designer" data-val="in the style of Pentagram">펜타그램</button>
-              <button class="pm-chip multi" data-group="designer" data-val="in the style of Wes Anderson">웨스 앤더슨</button>
               <button class="pm-chip multi" data-group="designer" data-val="in the style of Muji design">무지 디자인</button>
             </div>
           </div>
@@ -1152,6 +1166,45 @@
               <button class="pm-chip active" data-group="quality" data-val="ultra-detailed, photorealistic, 8K resolution">Ultra HD (8K)</button>
               <button class="pm-chip" data-group="quality" data-val="high quality, detailed, 4K resolution">High Quality (4K)</button>
               <button class="pm-chip" data-group="quality" data-val="professional studio photography quality">스튜디오 포토</button>
+            </div>
+          </div>
+
+          <!-- 카메라 & 렌즈 -->
+          <div class="pm-section">
+            <div class="pm-label">카메라 <span class="pm-sublabel">(선택)</span></div>
+            <div class="pm-chips" id="pm-camera">
+              <button class="pm-chip" data-group="camera" data-val="shot on Leica M11">Leica M11</button>
+              <button class="pm-chip" data-group="camera" data-val="shot on Hasselblad X2D">Hasselblad X2D</button>
+              <button class="pm-chip" data-group="camera" data-val="shot on Sony A7R V">Sony A7R V</button>
+              <button class="pm-chip" data-group="camera" data-val="shot on Canon EOS R5">Canon EOS R5</button>
+              <button class="pm-chip" data-group="camera" data-val="shot on Phase One IQ4">Phase One IQ4</button>
+            </div>
+          </div>
+
+          <!-- 렌즈 -->
+          <div class="pm-section">
+            <div class="pm-label">렌즈 <span class="pm-sublabel">(선택)</span></div>
+            <div class="pm-chips" id="pm-lens">
+              <button class="pm-chip" data-group="lens" data-val="24mm wide angle lens">24mm 광각</button>
+              <button class="pm-chip" data-group="lens" data-val="35mm lens">35mm 표준광각</button>
+              <button class="pm-chip" data-group="lens" data-val="50mm lens, natural perspective">50mm 표준</button>
+              <button class="pm-chip" data-group="lens" data-val="85mm portrait lens, shallow depth of field">85mm 포트레이트</button>
+              <button class="pm-chip" data-group="lens" data-val="100mm macro lens, extreme close-up detail">100mm 매크로</button>
+            </div>
+          </div>
+
+          <!-- 광학 / 조명 조건 -->
+          <div class="pm-section">
+            <div class="pm-label">광학 · 조명 조건 <span class="pm-sublabel">(중복 선택 가능)</span></div>
+            <div class="pm-chips" id="pm-lighting">
+              <button class="pm-chip multi" data-group="lighting" data-val="golden hour lighting, warm sunlight">골든 아워</button>
+              <button class="pm-chip multi" data-group="lighting" data-val="soft rim lighting, backlit glow">소프트 림 라이팅</button>
+              <button class="pm-chip multi" data-group="lighting" data-val="volumetric fog, atmospheric haze">볼류메트릭 포그</button>
+              <button class="pm-chip multi" data-group="lighting" data-val="studio softbox lighting, clean shadows">스튜디오 소프트박스</button>
+              <button class="pm-chip multi" data-group="lighting" data-val="diffused natural window light">자연 창문 빛</button>
+              <button class="pm-chip multi" data-group="lighting" data-val="dramatic side lighting, strong contrast">드라마틱 사이드 라이팅</button>
+              <button class="pm-chip multi" data-group="lighting" data-val="candlelight, warm ambient glow">캔들라이트</button>
+              <button class="pm-chip multi" data-group="lighting" data-val="neon glow, colorful reflections">네온 글로우</button>
             </div>
           </div>
 
@@ -1249,6 +1302,10 @@
         <div class="cat-filter" id="cat-filter"></div>
 
         <div id="product-list">
+          <button class="product-btn sample-btn" onclick="if(myGameInstance) myGameInstance.SendMessage('ProductManager','CreateSampleProduct'); showToast('샘플박스 생성 요청','success');">
+            <span class="prod-num">✦</span>
+            <span class="prod-name">샘플박스 생성</span>
+          </button>
           <div class="list-empty">
             <span class="empty-icon">⧖</span>
             Unity 로딩 대기 중...<br>
@@ -1728,10 +1785,21 @@
       function renderList(products) {
         var list = document.getElementById('product-list');
         list.innerHTML = '';
-        if (!products || products.length === 0) {
-          list.innerHTML = '<div class="list-empty"><span class="empty-icon">⧖</span>Unity 로딩 대기 중...<br><small>제품 목록은 Unity가<br>데이터를 전달하면 표시됩니다</small></div>';
-          return;
-        }
+
+        /* ── 샘플박스 생성 버튼 (항상 1번째) ── */
+        var sampleBtn = document.createElement('button');
+        sampleBtn.className = 'product-btn sample-btn';
+        sampleBtn.innerHTML =
+          '<span class="prod-num">✦</span>' +
+          '<span class="prod-name">샘플박스 생성</span>';
+        sampleBtn.onclick = function() {
+          if (myGameInstance) myGameInstance.SendMessage('ProductManager', 'CreateSampleProduct');
+          showToast('샘플박스 생성 요청', 'success');
+        };
+        list.appendChild(sampleBtn);
+
+        if (!products || products.length === 0) return;
+
         products.forEach(function(p, i) {
           var btn = document.createElement('button');
           btn.className = 'product-btn';
@@ -2356,7 +2424,10 @@
         designer: new Set(),
         color:    null,
         quality:  'ultra-detailed, photorealistic, 8K resolution',
-        ratio:    '--ar 4:5'
+        ratio:    '--ar 4:5',
+        camera:   null,
+        lens:     null,
+        lighting: new Set()
       };
 
       var PM_NEGATIVE = '--no watermark, logo, text, letters, words, typography, signature, label text, broken text, illegible text, blurry text, distorted text, random characters, recolored products, changed product materials';
@@ -2451,6 +2522,9 @@
         // 색상은 박스와 배경에만 적용됨을 명시
         if (PM.color)         styleParts.push('packaging box and background color: ' + PM.color + ' (apply this color ONLY to the box and background, NOT to the skincare products inside)');
         if (PM.quality)       styleParts.push(PM.quality);
+        if (PM.camera)        styleParts.push(PM.camera);
+        if (PM.lens)          styleParts.push(PM.lens);
+        if (PM.lighting.size) styleParts.push(Array.from(PM.lighting).join(', '));
         var styleStr = styleParts.join(', ');
 
         // 전체 프롬프트 조립
@@ -2499,9 +2573,22 @@
         var group   = chip.dataset.group;
         var val     = chip.dataset.val;
         var isMulti = chip.classList.contains('multi');
+        var isNone  = chip.dataset.none === 'true';
+
         if (isMulti) {
-          if (PM.designer.has(val)) { PM.designer.delete(val); chip.classList.remove('active'); }
-          else                     { PM.designer.add(val);    chip.classList.add('active'); }
+          // "없음" 칩: 모든 선택 해제
+          if (isNone) {
+            chip.closest('.pm-chips').querySelectorAll('.pm-chip').forEach(function(c){ c.classList.remove('active'); });
+            if (group === 'designer') PM.designer = new Set();
+            if (group === 'lighting') PM.lighting = new Set();
+            chip.classList.add('active');
+          } else {
+            // 없음 칩 해제
+            chip.closest('.pm-chips').querySelectorAll('[data-none="true"]').forEach(function(c){ c.classList.remove('active'); });
+            var store = group === 'lighting' ? PM.lighting : PM.designer;
+            if (store.has(val)) { store.delete(val); chip.classList.remove('active'); }
+            else                { store.add(val);    chip.classList.add('active'); }
+          }
         } else {
           chip.closest('.pm-chips').querySelectorAll('.pm-chip').forEach(function(c){ c.classList.remove('active'); });
           chip.classList.add('active');
@@ -2569,6 +2656,7 @@
       /* ── 리셋 ── */
       function resetPromptModal() {
         PM.style = null; PM.designer = new Set(); PM.color = null;
+        PM.camera = null; PM.lens = null; PM.lighting = new Set();
         PM.quality = 'ultra-detailed, photorealistic, 8K resolution';
         PM.ratio   = '--ar 4:5';
         document.querySelectorAll('.pm-chip').forEach(function(c){ c.classList.remove('active'); });
@@ -2588,19 +2676,28 @@
           var arr = Array.from(nodeList);
           return arr[Math.floor(Math.random() * arr.length)];
         }
-        ['style','color','quality','ratio'].forEach(function(g) {
+        ['style','color','quality','ratio','camera','lens'].forEach(function(g) {
           var chips = document.querySelectorAll('[data-group="' + g + '"]');
           chips.forEach(function(c){ c.classList.remove('active'); });
           var picked = pickRandom(chips);
           picked.classList.add('active');
           PM[g] = picked.dataset.val;
         });
-        var desChips = Array.from(document.querySelectorAll('#pm-designer .pm-chip'));
-        desChips.forEach(function(c){ c.classList.remove('active'); });
+        // designer
+        var desChips = Array.from(document.querySelectorAll('#pm-designer .pm-chip:not([data-none="true"])'));
+        document.querySelectorAll('#pm-designer .pm-chip').forEach(function(c){ c.classList.remove('active'); });
         PM.designer = new Set();
         var pickN = Math.floor(Math.random() * 3);
         desChips.sort(function(){ return Math.random()-0.5; }).slice(0,pickN).forEach(function(c){
           c.classList.add('active'); PM.designer.add(c.dataset.val);
+        });
+        // lighting
+        var lightChips = Array.from(document.querySelectorAll('#pm-lighting .pm-chip'));
+        lightChips.forEach(function(c){ c.classList.remove('active'); });
+        PM.lighting = new Set();
+        var pickL = Math.floor(Math.random() * 3) + 1;
+        lightChips.sort(function(){ return Math.random()-0.5; }).slice(0,pickL).forEach(function(c){
+          c.classList.add('active'); PM.lighting.add(c.dataset.val);
         });
         updatePreview();
         showToast('랜덤 프롬프트 생성됨', 'success');
