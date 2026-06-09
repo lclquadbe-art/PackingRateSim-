@@ -1082,6 +1082,40 @@
         box-shadow: 0 2px 8px rgba(79,110,247,0.28);
       }
       .pm-footer-btn.primary:hover { background: var(--accent-dk); }
+
+      /* 조명 입력 그리드 */
+      .pm-input-grid { display: flex; flex-direction: column; gap: 6px; margin-bottom: 7px; }
+      .pm-input-row { display: flex; align-items: center; gap: 8px; }
+      .pm-input-label {
+        font-size: 11px; font-weight: 600; color: var(--text-sec);
+        flex-shrink: 0; width: 78px;
+      }
+      .pm-text-input {
+        flex: 1; background: var(--bg); border: 1px solid var(--border);
+        border-radius: var(--radius-sm); padding: 6px 10px;
+        font-size: 12px; font-family: 'Inter', monospace;
+        color: var(--text-pri); outline: none;
+        transition: border-color 0.2s, box-shadow 0.2s;
+      }
+      .pm-text-input:focus {
+        border-color: var(--accent);
+        box-shadow: 0 0 0 2px rgba(79,110,247,0.12);
+        background: var(--surface);
+      }
+      .pm-text-input::placeholder { color: var(--text-mut); }
+      .pm-input-desc {
+        font-size: 10px; color: var(--text-sec); line-height: 1.6;
+        background: var(--bg); border: 1px solid var(--border);
+        border-radius: var(--radius-sm); padding: 6px 10px;
+      }
+
+      /* 렌더 스타일 고정 블록 */
+      .pm-fixed-block {
+        background: #f0f4ff; border: 1px solid var(--accent);
+        border-radius: var(--radius-sm); padding: 9px 12px;
+        font-size: 11px; line-height: 1.7;
+        color: var(--text-sec); font-family: 'Inter', monospace;
+      }
     </style>
   </head>
   <body>
@@ -1127,6 +1161,18 @@
               <button class="pm-chip" data-group="style" data-val="playful, colorful, youthful packaging design">키치/팝아트</button>
               <button class="pm-chip" data-group="style" data-val="futuristic, sleek, high-tech packaging design">미래지향적</button>
               <button class="pm-chip" data-group="style" data-val="artistic, hand-crafted, artisan packaging design">아티스틱</button>
+            </div>
+          </div>
+
+          <!-- 패키지 상자 타입 -->
+          <div class="pm-section">
+            <div class="pm-label">패키지 상자 타입 <span class="pm-sublabel">(선택)</span></div>
+            <div class="pm-chips" id="pm-boxtype">
+              <button class="pm-chip" data-group="boxtype" data-val="Tuck End Box packaging structure">Tuck End Box</button>
+              <button class="pm-chip" data-group="boxtype" data-val="2-Piece Box with separate lid and base">2-Piece Box (Lid &amp; Base)</button>
+              <button class="pm-chip" data-group="boxtype" data-val="Drawer Box with sliding tray">Drawer Box (Sliding)</button>
+              <button class="pm-chip" data-group="boxtype" data-val="Ear-Lock Mailer Box packaging">Ear-Lock Mailer Box</button>
+              <button class="pm-chip" data-group="boxtype" data-val="Book-style Magnetic closure Box">Book-style Magnetic Box</button>
             </div>
           </div>
 
@@ -1193,18 +1239,73 @@
             </div>
           </div>
 
-          <!-- 광학 / 조명 조건 -->
+          <!-- 카메라 구도 -->
           <div class="pm-section">
-            <div class="pm-label">광학 · 조명 조건 <span class="pm-sublabel">(중복 선택 가능)</span></div>
-            <div class="pm-chips" id="pm-lighting">
-              <button class="pm-chip multi" data-group="lighting" data-val="golden hour lighting, warm sunlight">골든 아워</button>
-              <button class="pm-chip multi" data-group="lighting" data-val="soft rim lighting, backlit glow">소프트 림 라이팅</button>
-              <button class="pm-chip multi" data-group="lighting" data-val="volumetric fog, atmospheric haze">볼류메트릭 포그</button>
-              <button class="pm-chip multi" data-group="lighting" data-val="studio softbox lighting, clean shadows">스튜디오 소프트박스</button>
-              <button class="pm-chip multi" data-group="lighting" data-val="diffused natural window light">자연 창문 빛</button>
-              <button class="pm-chip multi" data-group="lighting" data-val="dramatic side lighting, strong contrast">드라마틱 사이드 라이팅</button>
-              <button class="pm-chip multi" data-group="lighting" data-val="candlelight, warm ambient glow">캔들라이트</button>
-              <button class="pm-chip multi" data-group="lighting" data-val="neon glow, colorful reflections">네온 글로우</button>
+            <div class="pm-label">카메라 구도 <span class="pm-sublabel">(선택)</span></div>
+            <div class="pm-chips" id="pm-angle">
+              <button class="pm-chip" data-group="angle" data-val="Front view, Eye-level shot, Straight-on studio shot">Front view</button>
+              <button class="pm-chip" data-group="angle" data-val="Three-quarter view, Perspective view, Isometric angle">Three-quarter view</button>
+              <button class="pm-chip" data-group="angle" data-val="Top-down view, High-angle shot, Bird's-eye view">Top-down view</button>
+              <button class="pm-chip" data-group="angle" data-val="Macro shot, Close-up on texture and embossing detail">Macro / Close-up</button>
+            </div>
+          </div>
+
+          <!-- 조명 (Lighting) -->
+          <div class="pm-section">
+            <div class="pm-label">조명 (Lighting)</div>
+            <div class="pm-input-grid">
+              <div class="pm-input-row">
+                <label class="pm-input-label">키라이트 방향</label>
+                <input type="text" id="pm-keylight" class="pm-text-input" placeholder="예: front-left / top-left" oninput="updatePreview()">
+              </div>
+              <div class="pm-input-row">
+                <label class="pm-input-label">보조광 방향</label>
+                <input type="text" id="pm-filllight" class="pm-text-input" placeholder="예: right / bottom-right" oninput="updatePreview()">
+              </div>
+            </div>
+            <div class="pm-input-desc">
+              키라이트·보조광 방향을 입력하면 아래 구조로 자동 생성됩니다:<br>
+              <small style="color:var(--accent);font-family:'Inter',monospace;">strong [키라이트] key light, sharp rim light along edges, clean fill light from [보조광], bright specular highlights, glossy reflections, subtle bloom, dramatic but polished commercial product lighting.</small>
+            </div>
+          </div>
+
+          <!-- 배경 (Background) -->
+          <div class="pm-section">
+            <div class="pm-label">배경 (Background)</div>
+            <div class="pm-chips" id="pm-background">
+              <button class="pm-chip" data-group="background" data-val="pure solid black background">솔리드 블랙</button>
+              <button class="pm-chip" data-group="background" data-val="dreamy sky-blue gradient with soft clouds">스카이 블루 그라데이션</button>
+              <button class="pm-chip" data-group="background" data-val="seamless white studio background">화이트 스튜디오</button>
+              <button class="pm-chip" data-group="background" data-val="glossy retro ad backdrop">글로시 레트로</button>
+              <button class="pm-chip" data-group="background" data-val="bold color-paper backdrop">볼드 컬러페이퍼</button>
+            </div>
+            <input type="text" id="pm-background-custom" class="pm-text-input" style="margin-top:7px;" placeholder="또는 직접 입력 (선택 시 자동 채워짐)" oninput="onBgCustomInput()">
+          </div>
+
+          <!-- 전체 무드 (Mood) -->
+          <div class="pm-section">
+            <div class="pm-label">전체 무드 (Mood)</div>
+            <div class="pm-chips" id="pm-mood">
+              <button class="pm-chip" data-group="mood" data-val="nostalgic">nostalgic</button>
+              <button class="pm-chip" data-group="mood" data-val="collectible">collectible</button>
+              <button class="pm-chip" data-group="mood" data-val="glossy">glossy</button>
+              <button class="pm-chip" data-group="mood" data-val="energetic">energetic</button>
+              <button class="pm-chip" data-group="mood" data-val="premium">premium</button>
+              <button class="pm-chip" data-group="mood" data-val="loud">loud</button>
+              <button class="pm-chip" data-group="mood" data-val="retro">retro</button>
+              <button class="pm-chip" data-group="mood" data-val="futuristic">futuristic</button>
+              <button class="pm-chip" data-group="mood" data-val="playful">playful</button>
+              <button class="pm-chip" data-group="mood" data-val="editorial">editorial</button>
+            </div>
+            <input type="text" id="pm-mood-custom" class="pm-text-input" style="margin-top:7px;" placeholder="또는 직접 입력 (선택 시 자동 채워짐)" oninput="onMoodCustomInput()">
+          </div>
+
+          <!-- 렌더 스타일 (고정) -->
+          <div class="pm-section">
+            <div class="pm-label">렌더 스타일 (Render Style) <span class="pm-sublabel">— 자동 포함</span></div>
+            <div class="pm-fixed-block">
+              Photorealistic 3D CGI product render, Blender / Cinema 4D / Adobe Dimension style, ultra-clean geometry, premium materials, precise reflections, sharp focus, high resolution, polished commercial advertising quality.<br>
+              <span style="color:var(--danger);font-size:10px;margin-top:4px;display:block;">Make it look unmistakably like a high-end 3D CGI render with realistic reflections, sharp metallic highlights, glossy printed packaging, clear studio lighting, and premium advertising quality.</span>
             </div>
           </div>
 
@@ -2420,17 +2521,22 @@
     <script>
       /* ══ PM 선택 상태 ══ */
       var PM = {
-        style:    null,
-        designer: new Set(),
-        color:    null,
-        quality:  'ultra-detailed, photorealistic, 8K resolution',
-        ratio:    '--ar 4:5',
-        camera:   null,
-        lens:     null,
-        lighting: new Set()
+        style:       null,
+        designer:    new Set(),
+        color:       null,
+        quality:     'ultra-detailed, photorealistic, 8K resolution',
+        ratio:       '--ar 4:5',
+        camera:      null,
+        lens:        null,
+        angle:       null,
+        boxtype:     null,
+        background:  null,
+        mood:        null,
+        keylight:    '',
+        filllight:   ''
       };
 
-      var PM_NEGATIVE = '--no watermark, logo, text, letters, words, typography, signature, label text, broken text, illegible text, blurry text, distorted text, random characters, recolored products, changed product materials';
+      var PM_NEGATIVE = '--no watermark, logo, text, letters, words, typography, signature, label text, broken text, illegible text, blurry text, distorted text, random characters, recolored products, changed product materials, matte paper texture, cartoon style';
 
       // ① 장면 설명: 패키징 박스 안에 스킨케어 제품들이 담긴 장면
       var PM_BASE_SCENE = 'A skincare product gift set inside an open packaging box, bird\'s-eye or front-facing studio shot, the packaging box is fully visible as the main container, skincare bottles and containers are arranged inside the box, professional studio lighting, commercial product photography';
@@ -2512,27 +2618,54 @@
         // 문단 2: 이미지 참조 지시 (크롭 ON일 때만)
         var refGuide = useCrop ? PM_CROP_INSTRUCTION : '';
 
-        // 문단 3: 제품 재질/색상 (고정값 — 색상 조합에 영향받지 않음)
+        // 문단 3: 제품 재질/색상
         var matDesc = buildMaterialPrompt();
 
-        // 문단 4: 박스/배경 스타일 옵션
+        // 문단 4: 스타일 옵션 조합
         var styleParts = [];
         if (PM.style)         styleParts.push(PM.style);
+        if (PM.boxtype)       styleParts.push(PM.boxtype);
         if (PM.designer.size) styleParts.push(Array.from(PM.designer).join(', '));
-        // 색상은 박스와 배경에만 적용됨을 명시
         if (PM.color)         styleParts.push('packaging box and background color: ' + PM.color + ' (apply this color ONLY to the box and background, NOT to the skincare products inside)');
         if (PM.quality)       styleParts.push(PM.quality);
         if (PM.camera)        styleParts.push(PM.camera);
         if (PM.lens)          styleParts.push(PM.lens);
-        if (PM.lighting.size) styleParts.push(Array.from(PM.lighting).join(', '));
+        if (PM.angle)         styleParts.push(PM.angle);
         var styleStr = styleParts.join(', ');
 
-        // 전체 프롬프트 조립
+        // [Lighting] 블록
+        var lightingBlock = '';
+        var keylight  = (document.getElementById('pm-keylight')  ? document.getElementById('pm-keylight').value.trim()  : '') || PM.keylight;
+        var filllight = (document.getElementById('pm-filllight') ? document.getElementById('pm-filllight').value.trim() : '') || PM.filllight;
+        if (keylight || filllight) {
+          lightingBlock = '[Lighting]\nVery clear premium studio lighting:\nstrong ' + (keylight || 'front-left') + ' key light,\nsharp rim light along the packaging edges,\nclean fill light from ' + (filllight || 'right') + ',\nbright specular highlights on surfaces,\nglossy reflection rolling across the label,\nsubtle bloom on the brightest highlights,\ndramatic but polished commercial product lighting.';
+        }
+
+        // [Background] 블록
+        var bgVal = (document.getElementById('pm-background-custom') ? document.getElementById('pm-background-custom').value.trim() : '') || PM.background || '';
+        var bgBlock = bgVal ? '[Background]\n' + bgVal + '.\nNo environment clutter unless specified.' : '';
+
+        // [Render Style] 블록 (고정)
+        var renderBlock = '[Render Style]\nPhotorealistic 3D CGI product render, Blender / Cinema 4D / Adobe Dimension style, ultra-clean geometry, premium materials, precise reflections, sharp focus, high resolution, polished commercial advertising quality.';
+
+        // [Mood] 블록
+        var moodVal = (document.getElementById('pm-mood-custom') ? document.getElementById('pm-mood-custom').value.trim() : '') || PM.mood || '';
+        var moodBlock = moodVal ? '[Mood] ' + moodVal : '';
+
+        // CGI 품질 고정 문구
+        var cgiBlock = 'Make it look unmistakably like a high-end 3D CGI product render with realistic reflections, sharp highlights, glossy printed packaging, clear studio lighting, and premium advertising quality.';
+
+        // 전체 조립
         var blocks = [];
-        if (refGuide) blocks.push(refGuide);
+        if (refGuide)     blocks.push(refGuide);
         blocks.push(scene);
-        if (matDesc)  blocks.push(matDesc);
-        if (styleStr) blocks.push(styleStr);
+        if (matDesc)      blocks.push(matDesc);
+        if (styleStr)     blocks.push(styleStr);
+        if (lightingBlock) blocks.push(lightingBlock);
+        if (bgBlock)      blocks.push(bgBlock);
+        if (renderBlock)  blocks.push(renderBlock);
+        if (moodBlock)    blocks.push(moodBlock);
+        blocks.push(cgiBlock);
 
         var prompt = blocks.join('\n\n');
         if (PM.ratio) prompt += ' ' + PM.ratio;
@@ -2576,16 +2709,13 @@
         var isNone  = chip.dataset.none === 'true';
 
         if (isMulti) {
-          // "없음" 칩: 모든 선택 해제
           if (isNone) {
             chip.closest('.pm-chips').querySelectorAll('.pm-chip').forEach(function(c){ c.classList.remove('active'); });
             if (group === 'designer') PM.designer = new Set();
-            if (group === 'lighting') PM.lighting = new Set();
             chip.classList.add('active');
           } else {
-            // 없음 칩 해제
             chip.closest('.pm-chips').querySelectorAll('[data-none="true"]').forEach(function(c){ c.classList.remove('active'); });
-            var store = group === 'lighting' ? PM.lighting : PM.designer;
+            var store = PM.designer;
             if (store.has(val)) { store.delete(val); chip.classList.remove('active'); }
             else                { store.add(val);    chip.classList.add('active'); }
           }
@@ -2593,11 +2723,33 @@
           chip.closest('.pm-chips').querySelectorAll('.pm-chip').forEach(function(c){ c.classList.remove('active'); });
           chip.classList.add('active');
           PM[group] = val;
+
+          // 배경/무드 칩 선택 시 커스텀 입력란에 값 채우기
+          if (group === 'background') {
+            var bgInput = document.getElementById('pm-background-custom');
+            if (bgInput) bgInput.value = val;
+          }
+          if (group === 'mood') {
+            var moodInput = document.getElementById('pm-mood-custom');
+            if (moodInput) moodInput.value = val;
+          }
         }
         updatePreview();
       });
 
       document.getElementById('pm-no-text').addEventListener('change', updatePreview);
+
+      /* 커스텀 입력 시 칩 선택 해제 */
+      function onBgCustomInput() {
+        document.querySelectorAll('#pm-background .pm-chip').forEach(function(c){ c.classList.remove('active'); });
+        PM.background = null;
+        updatePreview();
+      }
+      function onMoodCustomInput() {
+        document.querySelectorAll('#pm-mood .pm-chip').forEach(function(c){ c.classList.remove('active'); });
+        PM.mood = null;
+        updatePreview();
+      }
 
       /* ── 모달 열기/닫기 ── */
       function openPromptModal() {
@@ -2656,7 +2808,9 @@
       /* ── 리셋 ── */
       function resetPromptModal() {
         PM.style = null; PM.designer = new Set(); PM.color = null;
-        PM.camera = null; PM.lens = null; PM.lighting = new Set();
+        PM.camera = null; PM.lens = null; PM.angle = null; PM.boxtype = null;
+        PM.background = null; PM.mood = null;
+        PM.keylight = ''; PM.filllight = '';
         PM.quality = 'ultra-detailed, photorealistic, 8K resolution';
         PM.ratio   = '--ar 4:5';
         document.querySelectorAll('.pm-chip').forEach(function(c){ c.classList.remove('active'); });
@@ -2664,6 +2818,11 @@
         var rEl = document.querySelector('[data-val="--ar 4:5"]');
         if (qEl) qEl.classList.add('active');
         if (rEl) rEl.classList.add('active');
+        // 텍스트 입력 초기화
+        ['pm-keylight','pm-filllight','pm-background-custom','pm-mood-custom'].forEach(function(id){
+          var el = document.getElementById(id);
+          if (el) el.value = '';
+        });
         document.getElementById('pm-no-text').checked = true;
         document.getElementById('pm-crop-instruction').checked = true;
         updatePreview();
@@ -2676,12 +2835,22 @@
           var arr = Array.from(nodeList);
           return arr[Math.floor(Math.random() * arr.length)];
         }
-        ['style','color','quality','ratio','camera','lens'].forEach(function(g) {
+        ['style','color','quality','ratio','camera','lens','angle','background','mood'].forEach(function(g) {
           var chips = document.querySelectorAll('[data-group="' + g + '"]');
           chips.forEach(function(c){ c.classList.remove('active'); });
           var picked = pickRandom(chips);
-          picked.classList.add('active');
-          PM[g] = picked.dataset.val;
+          if (picked) {
+            picked.classList.add('active');
+            PM[g] = picked.dataset.val;
+            if (g === 'background') {
+              var bgInput = document.getElementById('pm-background-custom');
+              if (bgInput) bgInput.value = picked.dataset.val;
+            }
+            if (g === 'mood') {
+              var moodInput = document.getElementById('pm-mood-custom');
+              if (moodInput) moodInput.value = picked.dataset.val;
+            }
+          }
         });
         // designer
         var desChips = Array.from(document.querySelectorAll('#pm-designer .pm-chip:not([data-none="true"])'));
@@ -2691,14 +2860,15 @@
         desChips.sort(function(){ return Math.random()-0.5; }).slice(0,pickN).forEach(function(c){
           c.classList.add('active'); PM.designer.add(c.dataset.val);
         });
-        // lighting
-        var lightChips = Array.from(document.querySelectorAll('#pm-lighting .pm-chip'));
-        lightChips.forEach(function(c){ c.classList.remove('active'); });
-        PM.lighting = new Set();
-        var pickL = Math.floor(Math.random() * 3) + 1;
-        lightChips.sort(function(){ return Math.random()-0.5; }).slice(0,pickL).forEach(function(c){
-          c.classList.add('active'); PM.lighting.add(c.dataset.val);
-        });
+        // 조명 방향 랜덤
+        var keylightOptions = ['front-left', 'top-left', 'left', 'front-right', 'top-right'];
+        var filllightOptions = ['right', 'bottom-right', 'front-right', 'left', 'bottom-left'];
+        var kl = keylightOptions[Math.floor(Math.random() * keylightOptions.length)];
+        var fl = filllightOptions[Math.floor(Math.random() * filllightOptions.length)];
+        document.getElementById('pm-keylight').value  = kl;
+        document.getElementById('pm-filllight').value = fl;
+        PM.keylight  = kl;
+        PM.filllight = fl;
         updatePreview();
         showToast('랜덤 프롬프트 생성됨', 'success');
       }
