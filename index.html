@@ -1149,6 +1149,43 @@
             <div id="pm-mat-detail" style="margin-top: 6px;"></div>
           </div>
 
+          <!-- ══ 촬영 장면 테마 ══ -->
+          <div class="pm-section">
+            <div class="pm-label">촬영 장면 테마 <span class="pm-sublabel">(선택 — 미선택 시 기본 스킨케어 박스 장면)</span></div>
+            <div class="pm-chips" id="pm-scene-theme">
+              <button class="pm-chip" data-group="sceneTheme" data-val="A high-end editorial beauty still life for a fictional luxury cosmetics brand, artfully arranged cosmetic products on a marble surface, dramatic studio lighting, fashion magazine editorial style">✦ 럭셔리 뷰티 에디토리얼</button>
+              <button class="pm-chip" data-group="sceneTheme" data-val="A high-end editorial beauty still life for a fictional luxury skincare brand, glass bottles and cream jars arranged with dried botanicals and silk fabric, soft studio lighting, Vogue beauty editorial style">✦ 스킨케어 보태니컬 에디토리얼</button>
+              <button class="pm-chip" data-group="sceneTheme" data-val="A high-end editorial beauty still life for a fictional luxury perfume brand, crystal perfume bottles on reflective surfaces with scattered petals, chiaroscuro lighting, Chanel-inspired editorial style">✦ 퍼퓸 럭셔리 에디토리얼</button>
+              <button class="pm-chip" data-group="sceneTheme" data-val="A high-end editorial beauty still life for a fictional luxury makeup brand, curated arrangement of lipsticks, compacts and brushes on velvet, moody atmospheric lighting, Harper's Bazaar editorial style">✦ 메이크업 에디토리얼</button>
+              <button class="pm-chip" data-group="sceneTheme" data-val="A high-end editorial beauty still life for a fictional luxury body care brand, premium body lotions and oils on aged stone with candles and botanicals, warm editorial lighting, Loewe-inspired aesthetic">✦ 보디케어 스톤 에디토리얼</button>
+            </div>
+          </div>
+
+          <!-- ══ 스튜디오 스타일 ══ -->
+          <div class="pm-section">
+            <div class="pm-label">스튜디오 스타일 <span class="pm-sublabel">(선택)</span></div>
+            <div class="pm-chips" id="pm-studio-style">
+              <button class="pm-chip" data-group="studioStyle" data-val="refined studio product photograph with a monochromatic dusty pink background and floor, soft matte texture, elevated fashion-editorial mood">모노크로매틱 더스티 핑크</button>
+              <button class="pm-chip" data-group="studioStyle" data-val="refined studio product photograph with a chalk-white seamless background, matte plaster texture, elevated fashion-editorial mood">화이트 매트 스튜디오</button>
+              <button class="pm-chip" data-group="studioStyle" data-val="refined studio product photograph with a deep charcoal grey seamless background, velvety matte surface, elevated couture fashion-editorial mood">차콜 그레이 쿠튀르</button>
+              <button class="pm-chip" data-group="studioStyle" data-val="refined studio product photograph with a warm ivory and cream background, soft cashmere-like matte texture, elevated luxury editorial mood">아이보리 카시미어</button>
+              <button class="pm-chip" data-group="studioStyle" data-val="refined studio product photograph with a sage green matte backdrop, earthy botanical texture, elevated organic luxury editorial mood">세이지 그린 보태니컬</button>
+              <button class="pm-chip" data-group="studioStyle" data-val="refined studio product photograph with a muted terracotta and sand background, warm earthy matte texture, elevated artisan editorial mood">테라코타 아티산</button>
+            </div>
+          </div>
+
+          <!-- ══ 샷 무드 (Shot Mood) ══ -->
+          <div class="pm-section">
+            <div class="pm-label">샷 무드 <span class="pm-sublabel">(선택) — 촬영 분위기 키워드</span></div>
+            <div class="pm-chips" id="pm-shot-mood">
+              <button class="pm-chip" data-group="shotMood" data-val="Luxury commercial still life photography, high-end beauty campaign, premium cosmetic packaging, shallow depth of field, clean composition, refined editorial mood">✦ 럭셔리 커머셜 스틸라이프</button>
+              <button class="pm-chip" data-group="shotMood" data-val="High fashion beauty campaign, hero product shot, cinematic depth of field, precise studio strobes, impeccable retouching, Dior Beauty campaign aesthetic">✦ 하이패션 뷰티 캠페인</button>
+              <button class="pm-chip" data-group="shotMood" data-val="Minimalist zen beauty editorial, negative space composition, single-source soft window light, breathing room, hushed luxury, Jo Malone campaign aesthetic">✦ 미니멀 젠 에디토리얼</button>
+              <button class="pm-chip" data-group="shotMood" data-val="Atmospheric moody beauty still life, dramatic shadows, rich textures, chiaroscuro lighting, editorial tension, Tom Ford Beauty campaign aesthetic">✦ 무드 다크 에디토리얼</button>
+              <button class="pm-chip" data-group="shotMood" data-val="Fresh dewy beauty shot, bright airy studio, soft diffused light, clean background, youthful premium feel, glossy magazine cover aesthetic">✦ 프레쉬 듀이 뷰티샷</button>
+            </div>
+          </div>
+
           <!-- 디자인 스타일 -->
           <div class="pm-section">
             <div class="pm-label">디자인 스타일</div>
@@ -1202,6 +1239,47 @@
               <button class="pm-chip" data-group="color" data-val="earth tones, warm brown and cream color palette">어스톤 (브라운+크림)</button>
               <button class="pm-chip" data-group="color" data-val="monochrome, all-white color palette">모노톤 화이트</button>
               <button class="pm-chip" data-group="color" data-val="vibrant, multi-color bold palette">비비드 멀티컬러</button>
+            </div>
+          </div>
+
+          <!-- ══ Branding ══ -->
+          <div class="pm-section">
+            <div class="pm-label">Branding <span class="pm-sublabel">(선택) — 브랜드·라벨 텍스트</span></div>
+            <div class="pm-input-grid">
+              <div class="pm-input-row">
+                <label class="pm-input-label">브랜드명</label>
+                <input type="text" id="pm-brand-name" class="pm-text-input" placeholder="예: LUMIVÉ / ZESTRO / NOCTA" oninput="updatePreview()">
+              </div>
+              <div class="pm-input-row">
+                <label class="pm-input-label">메인 로고</label>
+                <input type="text" id="pm-logo-text" class="pm-text-input" placeholder="예: PURE GLOW / ULTRA BOOST" oninput="updatePreview()">
+              </div>
+              <div class="pm-input-row">
+                <label class="pm-input-label">용량 표기</label>
+                <input type="text" id="pm-volume" class="pm-text-input" placeholder="예: 330ml / 500ml / 1.2L" oninput="updatePreview()">
+              </div>
+            </div>
+
+            <!-- 브랜딩 새김 위치 (중복 선택 가능) -->
+            <div class="pm-label" style="margin-top:10px;">새김 위치 <span class="pm-sublabel">(중복 선택 가능)</span></div>
+            <div class="pm-chips" id="pm-branding-place">
+              <button class="pm-chip multi" data-group="brandingPlace" data-val="" data-none="true">미지정</button>
+              <button class="pm-chip multi" data-group="brandingPlace" data-val="box">박스에 새기기</button>
+              <button class="pm-chip multi" data-group="brandingPlace" data-val="product">제품에 새기기</button>
+            </div>
+          </div>
+
+          <!-- ══ Label Design — 폰트 선택 ══ -->
+          <div class="pm-section">
+            <div class="pm-label">Label Design — 폰트 스타일 <span class="pm-sublabel">(선택)</span></div>
+            <div class="pm-chips" id="pm-font-feel">
+              <button class="pm-chip" data-group="fontFeel" data-val="elegant serif typeface, refined editorial typography, high-contrast thin strokes">세리프체 (고급스러운)</button>
+              <button class="pm-chip" data-group="fontFeel" data-val="modern sans-serif, clean geometric letterforms, luxury minimalism">산세리프 (모던 럭셔리)</button>
+              <button class="pm-chip" data-group="fontFeel" data-val="delicate script font, handwritten calligraphy feel, flowing strokes">스크립트 (캘리그래피)</button>
+              <button class="pm-chip" data-group="fontFeel" data-val="bold condensed display font, editorial impact, fashion-forward">볼드 디스플레이</button>
+              <button class="pm-chip" data-group="fontFeel" data-val="classic old-style serif, heritage typesetting, artisan elegance">클래식 올드스타일</button>
+              <button class="pm-chip" data-group="fontFeel" data-val="ultra-thin hairline serif, couture fashion house aesthetic">헤어라인 세리프 (꾸뛰르)</button>
+              <button class="pm-chip" data-group="fontFeel" data-val="Art Deco inspired typeface, geometric luxury, 1920s glamour">아르데코</button>
             </div>
           </div>
 
@@ -2521,25 +2599,43 @@
     <script>
       /* ══ PM 선택 상태 ══ */
       var PM = {
-        style:       null,
-        designer:    new Set(),
-        color:       null,
-        quality:     'ultra-detailed, photorealistic, 8K resolution',
-        ratio:       '--ar 4:5',
-        camera:      null,
-        lens:        null,
-        angle:       null,
-        boxtype:     null,
-        background:  null,
-        mood:        null,
-        keylight:    '',
-        filllight:   ''
+        style:          null,
+        designer:       new Set(),
+        color:          null,
+        quality:        'ultra-detailed, photorealistic, 8K resolution',
+        ratio:          '--ar 4:5',
+        camera:         null,
+        lens:           null,
+        angle:          null,
+        boxtype:        null,
+        background:     null,
+        mood:           null,
+        keylight:       '',
+        filllight:      '',
+        /* Branding */
+        brandName:      '',
+        logoText:       '',
+        volume:         '',
+        /* Label Design */
+        labelLayout:    null,
+        labelGraphics:  new Set(),
+        labelMood:      null,
+        /* Typography */
+        typefeel:       null,
+        typeoutline:    null,
+        /* Scene */
+        sceneTheme:     null,
+        studioStyle:    null,
+        /* Branding placement */
+        brandingPlace:  new Set(),
+        /* Shot mood */
+        shotMood:       null
       };
 
-      var PM_NEGATIVE = '--no watermark, logo, text, letters, words, typography, signature, label text, broken text, illegible text, blurry text, distorted text, random characters, recolored products, changed product materials, matte paper texture, cartoon style';
+      var PM_NEGATIVE = '--no watermark, logo, text, letters, words, typography, signature, label text, broken text, illegible text, blurry text, distorted text, random characters, recolored products, changed product materials, matte paper texture, cartoon style, sticker, label sticker, adhesive label, rectangular label patch, paper label, label overlay, floating text box, text panel, decal, applied graphic patch, changed product shape, different bottle shape, wrong silhouette, redesigned product, altered product form, generic bottle, substituted product shape';
 
       // ① 장면 설명: 패키징 박스 안에 스킨케어 제품들이 담긴 장면
-      var PM_BASE_SCENE = 'A skincare product gift set inside an open packaging box, bird\'s-eye or front-facing studio shot, the packaging box is fully visible as the main container, skincare bottles and containers are arranged inside the box, professional studio lighting, commercial product photography';
+      var PM_BASE_SCENE = 'A skincare product gift set inside an open packaging box, bird\'s-eye or front-facing studio shot, the packaging box is fully visible as the main container, skincare bottles and containers are arranged inside the box, professional studio lighting, commercial product photography. [PRODUCT SHAPE LOCK] Do NOT change the shape or silhouette of any product — reproduce each product\'s exact 3D form as shown in the reference. No shape substitution, no creative reinterpretation of product forms.';
 
       // ② 이미지 참조 지시문 — 박스를 "자르는 기준"이 아니라 "박스 형태"로 해석하도록
       var PM_CROP_INSTRUCTION = [
@@ -2553,11 +2649,17 @@
         '(2) Each product\'s size relative to the box must be preserved — do not scale up or down any individual product.',
         '(3) The size ratio between products must be preserved — larger products in the reference must remain larger, smaller ones smaller.',
         'Product positions and layout inside the box must exactly match the reference.',
-        'Ignore all content outside the black border (arrows, numbers, tables, white margins).'
+        'Ignore all content outside the black border (arrows, numbers, tables, white margins).',
+        '[PRODUCT SHAPE — ABSOLUTE PROHIBITION]',
+        'NEVER change the shape, silhouette, or form of any product shown in the reference image.',
+        'Each product\'s exact 3D shape must be reproduced as-is: if a bottle is cylindrical in the reference, render it cylindrical — do NOT convert it to a square bottle, pump bottle, or any other form.',
+        'If a container has a specific cap shape, lid style, or nozzle type, reproduce it exactly.',
+        'Do NOT substitute, generalize, or creatively reinterpret any product shape.',
+        'The product shapes in the reference image are LOCKED — treat them as hard constraints identical to the material and proportion rules above.'
       ].join(' ');
 
       // ③ 크롭 토글이 꺼져 있을 때 쓰는 기본 박스 설명
-      var PM_BASE_NOREF = 'A skincare product gift set neatly arranged inside an open packaging box, studio product photography, the packaging box is the main subject with products inside, preserve exact proportions of the box and all products relative to each other';
+      var PM_BASE_NOREF = 'A skincare product gift set neatly arranged inside an open packaging box, studio product photography, the packaging box is the main subject with products inside, preserve exact proportions of the box and all products relative to each other. [PRODUCT SHAPE LOCK] Do NOT alter the shape, silhouette, or form of any product — each product must be rendered in its exact original shape with no substitution or reinterpretation.';
 
       /* ── 재질 ID → 영문 프롬프트 매핑 ── */
       var MAT_LABEL = {
@@ -2612,8 +2714,9 @@
         var cropOn = document.getElementById('pm-crop-instruction');
         var useCrop = cropOn && cropOn.checked;
 
-        // 문단 1: 장면 설명
-        var scene = useCrop ? PM_BASE_SCENE : PM_BASE_NOREF;
+        // 문단 1: 장면 설명 — sceneTheme 선택 반영
+        var sceneBase = useCrop ? PM_BASE_SCENE : PM_BASE_NOREF;
+        var scene = PM.sceneTheme ? PM.sceneTheme : sceneBase;
 
         // 문단 2: 이미지 참조 지시 (크롭 ON일 때만)
         var refGuide = useCrop ? PM_CROP_INSTRUCTION : '';
@@ -2623,6 +2726,7 @@
 
         // 문단 4: 스타일 옵션 조합
         var styleParts = [];
+        if (PM.studioStyle) styleParts.push(PM.studioStyle);
         if (PM.style)         styleParts.push(PM.style);
         if (PM.boxtype)       styleParts.push(PM.boxtype);
         if (PM.designer.size) styleParts.push(Array.from(PM.designer).join(', '));
@@ -2648,12 +2752,52 @@
         // [Render Style] 블록 (고정)
         var renderBlock = '[Render Style]\nPhotorealistic 3D CGI product render, Blender / Cinema 4D / Adobe Dimension style, ultra-clean geometry, premium materials, precise reflections, sharp focus, high resolution, polished commercial advertising quality.';
 
-        // [Mood] 블록
+        // [Mood] 블록 — shotMood 포함
         var moodVal = (document.getElementById('pm-mood-custom') ? document.getElementById('pm-mood-custom').value.trim() : '') || PM.mood || '';
-        var moodBlock = moodVal ? '[Mood] ' + moodVal : '';
+        var moodParts = [];
+        if (moodVal) moodParts.push(moodVal);
+        if (PM.shotMood) moodParts.push(PM.shotMood);
+        var moodBlock = moodParts.length ? '[Mood] ' + moodParts.join(', ') : '';
 
         // CGI 품질 고정 문구
         var cgiBlock = 'Make it look unmistakably like a high-end 3D CGI product render with realistic reflections, sharp highlights, glossy printed packaging, clear studio lighting, and premium advertising quality.';
+
+        // [Branding] 블록
+        var brandingParts = [];
+        var brandName  = (document.getElementById('pm-brand-name')  ? document.getElementById('pm-brand-name').value.trim()  : '') || PM.brandName;
+        var logoText   = (document.getElementById('pm-logo-text')   ? document.getElementById('pm-logo-text').value.trim()   : '') || PM.logoText;
+        var volumeText = (document.getElementById('pm-volume')      ? document.getElementById('pm-volume').value.trim()      : '') || PM.volume;
+
+        // 새 폰트 선택
+        var fontFeelEl = document.querySelector('#pm-font-feel .pm-chip.active');
+        var fontFeel = fontFeelEl ? fontFeelEl.dataset.val : '';
+
+        if (brandName)  brandingParts.push('Use a fictional brand name: "' + brandName + '"');
+        if (logoText)   brandingParts.push('Primary logo text: "' + logoText + '"');
+        if (volumeText) brandingParts.push('Volume: "' + volumeText + '"');
+        if (fontFeel)   brandingParts.push('Typography style: ' + fontFeel);
+
+        // 브랜딩 위치 (박스 / 제품)
+        var placeArr = Array.from(PM.brandingPlace);
+        var placeStr = '';
+        if (placeArr.length) {
+          var placeLabels = placeArr.map(function(v) {
+            if (v === 'box') return 'engraved onto the packaging box surface';
+            if (v === 'product') return 'engraved onto the product surface';
+            return v;
+          });
+          placeStr = 'Branding placement: ' + placeLabels.join(' and ') + '.';
+        }
+
+        var brandingBlock = brandingParts.length
+          ? '[Branding]\nAll text must be printed DIRECTLY onto the packaging surface as part of the molded or printed material — NOT as a sticker, NOT as an applied label patch, NOT as a rectangular overlay. The typography is embossed, screen-printed, or surface-printed flush with the packaging.\n' + brandingParts.join('\n') + (placeStr ? '\n' + placeStr : '')
+          : '';
+
+        // [Label Design] 블록 — 폰트만
+        var labelBlock = '';
+        if (fontFeel && !brandingBlock) {
+          labelBlock = '[Label Design]\nTypography style: ' + fontFeel + '.';
+        }
 
         // 전체 조립
         var blocks = [];
@@ -2661,6 +2805,8 @@
         blocks.push(scene);
         if (matDesc)      blocks.push(matDesc);
         if (styleStr)     blocks.push(styleStr);
+        if (brandingBlock) blocks.push(brandingBlock);
+        if (labelBlock)   blocks.push(labelBlock);
         if (lightingBlock) blocks.push(lightingBlock);
         if (bgBlock)      blocks.push(bgBlock);
         if (renderBlock)  blocks.push(renderBlock);
@@ -2712,10 +2858,15 @@
           if (isNone) {
             chip.closest('.pm-chips').querySelectorAll('.pm-chip').forEach(function(c){ c.classList.remove('active'); });
             if (group === 'designer') PM.designer = new Set();
+            if (group === 'labelGraphics') PM.labelGraphics = new Set();
+            if (group === 'brandingPlace') PM.brandingPlace = new Set();
             chip.classList.add('active');
           } else {
             chip.closest('.pm-chips').querySelectorAll('[data-none="true"]').forEach(function(c){ c.classList.remove('active'); });
-            var store = PM.designer;
+            var store;
+            if (group === 'labelGraphics') store = PM.labelGraphics;
+            else if (group === 'brandingPlace') store = PM.brandingPlace;
+            else store = PM.designer;
             if (store.has(val)) { store.delete(val); chip.classList.remove('active'); }
             else                { store.add(val);    chip.classList.add('active'); }
           }
@@ -2813,13 +2964,22 @@
         PM.keylight = ''; PM.filllight = '';
         PM.quality = 'ultra-detailed, photorealistic, 8K resolution';
         PM.ratio   = '--ar 4:5';
+        PM.brandName = ''; PM.logoText = ''; PM.volume = '';
+        PM.labelLayout = null; PM.labelGraphics = new Set(); PM.labelMood = null;
+        PM.typefeel = null; PM.typeoutline = null;
+        PM.sceneTheme = null; PM.studioStyle = null;
+        PM.brandingPlace = new Set(); PM.shotMood = null;
+        ['pm-brand-name','pm-logo-text','pm-volume'].forEach(function(id){
+          var el = document.getElementById(id); if (el) el.value = '';
+        });
         document.querySelectorAll('.pm-chip').forEach(function(c){ c.classList.remove('active'); });
         var qEl = document.querySelector('[data-val="ultra-detailed, photorealistic, 8K resolution"]');
         var rEl = document.querySelector('[data-val="--ar 4:5"]');
         if (qEl) qEl.classList.add('active');
         if (rEl) rEl.classList.add('active');
         // 텍스트 입력 초기화
-        ['pm-keylight','pm-filllight','pm-background-custom','pm-mood-custom'].forEach(function(id){
+        ['pm-keylight','pm-filllight','pm-background-custom','pm-mood-custom',
+         'pm-brand-name','pm-logo-text','pm-volume'].forEach(function(id){
           var el = document.getElementById(id);
           if (el) el.value = '';
         });
